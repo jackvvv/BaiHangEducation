@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/themeColor">
+
+        <ImageView
+            android:id="@+id/tomine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/tomine" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="首页"
+            android:textColor="@color/textwhite"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_title"
+        android:background="@drawable/homebg">
+
+        <TextView
+            android:id="@+id/tv_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="37dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="59dp"
+            android:drawableLeft="@drawable/xuesheng"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="学生"
+            android:textColor="#cc000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_student"
+            android:layout_alignStart="@+id/tv_student"
+            android:layout_below="@+id/tv_student"
+            android:layout_marginTop="85dp"
+            android:drawableLeft="@drawable/qiye"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="企业"
+            android:textColor="#cc000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_chuangye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_company"
+            android:layout_marginEnd="28dp"
+            android:layout_marginRight="37dp"
+            android:layout_marginTop="77dp"
+            android:drawableLeft="@drawable/chuangye"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="创业"
+            android:textColor="#cc000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_rencai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_chuangye"
+            android:layout_marginEnd="28dp"
+            android:layout_marginRight="37dp"
+            android:layout_marginTop="99dp"
+            android:drawableLeft="@drawable/rnecai"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="人才"
+            android:textColor="#cc000000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

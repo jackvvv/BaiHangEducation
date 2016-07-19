@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BaiHangEducation</string>
+    <string name="contenthint">输入您的需求例如:\n1.需要×××歌手或演员\n2.时间\n3.地点\n4.截止时间</string>
+</resources>
