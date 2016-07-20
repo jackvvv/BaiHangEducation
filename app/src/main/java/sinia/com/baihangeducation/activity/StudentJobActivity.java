@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.adapter.MyFragmentPagerAdapter;
 import sinia.com.baihangeducation.base.BaseActivity;
@@ -64,6 +65,11 @@ public class StudentJobActivity extends BaseActivity {
         tab_title.addTab(tab_title.newTab().setText(titleList.get(0)));
         tab_title.addTab(tab_title.newTab().setText(titleList.get(1)));
         tab_title.setupWithViewPager(viewPager);
+    }
+
+    @OnClick(R.id.tv_ok)
+    void tv_ok() {
+
     }
 
 }

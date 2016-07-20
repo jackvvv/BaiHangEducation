@@ -51,6 +51,7 @@
         <activity android:name=".activity.StudentJobActivity" />
         <activity android:name=".activity.SelectCityActivity" />
         <activity android:name=".activity.PersonalInfoActivity" />
+        <activity android:name=".activity.JobTypeActivity" />
     </application>
 
 </manifest>

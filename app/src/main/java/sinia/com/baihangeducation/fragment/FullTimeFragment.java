@@ -15,6 +15,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sinia.com.baihangeducation.R;
+import sinia.com.baihangeducation.activity.JobTypeActivity;
 import sinia.com.baihangeducation.activity.PersonalInfoActivity;
 import sinia.com.baihangeducation.activity.SelectCityActivity;
 
@@ -55,6 +56,13 @@ public class FullTimeFragment extends Fragment {
     void rl_info() {
         Intent intent = new Intent(getActivity(),
                 PersonalInfoActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.rl_type)
+    void rl_type() {
+        Intent intent = new Intent(getActivity(),
+                JobTypeActivity.class);
         startActivity(intent);
     }
 
