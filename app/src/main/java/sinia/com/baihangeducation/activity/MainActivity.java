@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.tv_chuangye)
     void tv_chuangye() {
-
+        startActivityForNoIntent(ChuangyeProtecolActivity.class);
     }
 
     @OnClick(R.id.tv_rencai)

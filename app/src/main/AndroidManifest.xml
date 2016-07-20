@@ -52,6 +52,10 @@
         <activity android:name=".activity.SelectCityActivity" />
         <activity android:name=".activity.PersonalInfoActivity" />
         <activity android:name=".activity.JobTypeActivity" />
+        <activity android:name=".activity.ChuangyeProtecolActivity" />
+        <activity android:name=".activity.ChuangYeActivity" />
+        <activity android:name=".activity.ChuangyeFoundActivity" />
+        <activity android:name=".activity.ConfirmOrderActivity" />
     </application>
 
 </manifest>
