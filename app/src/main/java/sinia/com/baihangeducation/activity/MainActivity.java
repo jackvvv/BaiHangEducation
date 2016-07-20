@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.tomine)
     void tomine() {
-
+        startActivityForNoIntent(PersonalActivity.class);
     }
 
     @OnClick(R.id.tv_student)

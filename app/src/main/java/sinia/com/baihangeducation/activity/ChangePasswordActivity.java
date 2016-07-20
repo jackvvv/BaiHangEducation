@@ -22,33 +22,27 @@ import sinia.com.baihangeducation.utils.ValidationUtils;
 /**
  * Created by 忧郁的眼神 on 2016/7/15.
  */
-public class ForgetPasswordActivity extends BaseActivity {
-    @Pattern(regex = "(\\+\\d+)?1[34578]\\d{9}$", message = "请输入正确的手机号码")
+public class ChangePasswordActivity extends BaseActivity {
+    @NotEmpty(message = "请输入旧密码")
     @Order(1)
-    @Bind(R.id.et_tel)
-    EditText et_tel;
-    @NotEmpty(message = "请输入验证码")
-    @Order(2)
-    @Bind(R.id.et_code)
-    EditText et_code;
+    @Bind(R.id.et_old)
+    EditText et_old;
     @Password(sequence = 1, message = "请输入密码")
-    @Order(3)
+    @Order(2)
     @Bind(R.id.et_pwd)
     EditText et_pwd;
     @ConfirmPassword(message = "两次输入的密码不一致")
-    @Order(4)
+    @Order(3)
     @Bind(R.id.et_confirm)
     EditText et_confirm;
-    @Bind(R.id.tv_register)
-    TextView tv_register;
-    @Bind(R.id.tv_getcode)
-    TextView tv_getcode;
+    @Bind(R.id.tv_submit)
+    TextView tv_submit;
     private Validator validator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_pwd, "忘记密码");
+        setContentView(R.layout.activity_change_pwd, "修改密码");
         getDoingView().setVisibility(View.GONE);
         initViewsAndEvents();
     }
@@ -63,15 +57,9 @@ public class ForgetPasswordActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.tv_getcode)
-    void tv_getcode() {
-        if (StringUtils.isMobileNumber(et_tel.getEditableText().toString().trim())) {
-            showToast("请输入正确的手机号码");
-        }
-    }
 
-    @OnClick(R.id.tv_login)
-    void tv_register() {
+    @OnClick(R.id.tv_submit)
+    void tv_submit() {
         validator.validate();
     }
 

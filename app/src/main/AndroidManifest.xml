@@ -56,6 +56,10 @@
         <activity android:name=".activity.ChuangYeActivity" />
         <activity android:name=".activity.ChuangyeFoundActivity" />
         <activity android:name=".activity.ConfirmOrderActivity" />
+        <activity android:name=".activity.PersonalActivity" />
+        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.ChangePasswordActivity" />
+        <activity android:name=".activity.AboutUsActivity" />
     </application>
 
 </manifest>
