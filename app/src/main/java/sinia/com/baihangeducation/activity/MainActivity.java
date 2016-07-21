@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.tv_rencai)
     void tv_rencai() {
-
+        startActivityForNoIntent(LoginActivity.class);
     }
 
     private void setTranslucentStatus(boolean on) {

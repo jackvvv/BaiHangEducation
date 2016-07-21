@@ -36,12 +36,12 @@ public class PersonalActivity extends BaseActivity {
 
     @OnClick(R.id.ll_work)
     void ll_work() {
-
+        startActivityForNoIntent(MyJobActivity.class);
     }
 
     @OnClick(R.id.ll_chy)
     void ll_chy() {
-
+        startActivityForNoIntent(MyChuangyeActivity.class);
     }
 
     @OnClick(R.id.ll_setting)

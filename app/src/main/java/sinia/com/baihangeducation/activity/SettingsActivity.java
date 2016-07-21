@@ -47,7 +47,7 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.rl_help)
     void rl_help() {
-
+        startActivityForNoIntent(HelpActivity.class);
     }
 
     @OnClick(R.id.rl_aboutus)
@@ -57,6 +57,6 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.rl_feedback)
     void rl_feedback() {
-
+        startActivityForNoIntent(FeedBackActivity.class);
     }
 }

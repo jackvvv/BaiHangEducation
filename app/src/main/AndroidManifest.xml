@@ -60,6 +60,14 @@
         <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.ChangePasswordActivity" />
         <activity android:name=".activity.AboutUsActivity" />
+        <activity android:name=".activity.HelpActivity" />
+        <activity android:name=".activity.FeedBackActivity" />
+        <activity android:name=".activity.MyJobActivity" />
+        <activity android:name=".activity.MyChuangyeActivity" />
+        <activity android:name=".activity.MyBeansActivity" />
+        <activity android:name=".activity.WithdrawActivity" />
+        <activity android:name=".activity.RechargeActivity" />
+        <activity android:name=".activity.BeansIntroduceActivity" />
     </application>
 
 </manifest>

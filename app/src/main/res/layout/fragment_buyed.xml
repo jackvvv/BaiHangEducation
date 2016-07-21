@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grayBgColor"
+    android:orientation="vertical">
+
+    <sinia.com.baihangeducation.view.swipmenulistview.SwipeMenuListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/grayBgColor"
+        android:dividerHeight="6dp"
+        android:listSelector="#00000000"
+        android:scrollbars="none"></sinia.com.baihangeducation.view.swipmenulistview.SwipeMenuListView>
+
+</RelativeLayout>
