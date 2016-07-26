@@ -1,10 +1,14 @@
 package sinia.com.baihangeducation.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -18,6 +22,7 @@ import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.actionsheetdialog.ActionSheetDialog;
 import sinia.com.baihangeducation.actionsheetdialog.ActionSheetDialogUtils;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.utils.Constants;
 import sinia.com.baihangeducation.utils.StringUtils;
 import sinia.com.baihangeducation.utils.ValidationUtils;
 
@@ -25,49 +30,35 @@ import sinia.com.baihangeducation.utils.ValidationUtils;
  * Created by 忧郁的眼神 on 2016/7/15.
  */
 public class HighTalentActivity extends BaseActivity {
-    @Pattern(regex = "(\\+\\d+)?1[34578]\\d{9}$", message = "请输入正确的手机号码")
     @Order(1)
-    @Bind(R.id.et_tel)
-    EditText et_tel;
-    @NotEmpty(message = "请输入验证码")
-    @Order(2)
-    @Bind(R.id.et_code)
-    EditText et_code;
-    @Password(sequence = 1, message = "请输入密码")
-    @Order(3)
-    @Bind(R.id.et_pwd)
-    EditText et_pwd;
-    @ConfirmPassword(message = "两次输入的密码不一致")
-    @Order(4)
-    @Bind(R.id.et_confirm)
-    EditText et_confirm;
-    @Order(4)
     @NotEmpty(message = "请输入身份号码")
     @Bind(R.id.et_sdcard)
     EditText et_sdcard;
-    @Order(5)
+    @Order(3)
     @NotEmpty(message = "请输入证件号码")
     @Bind(R.id.et_cardnum)
     EditText et_cardnum;
-    @Order(6)
+    @Order(4)
     @NotEmpty(message = "请输入您的姓名")
     @Bind(R.id.et_name)
     EditText et_name;
-    @Order(7)
+    @Order(5)
     @NotEmpty(message = "请输入工作经历")
     @Bind(R.id.et_work)
     EditText et_work;
-    @Order(8)
+    @Order(6)
     @NotEmpty(message = "请输入学习经历")
     @Bind(R.id.et_study)
     EditText et_study;
     @Bind(R.id.tv_register)
     TextView tv_register;
+    @Order(2)
+    @NotEmpty(message = "请选择证件类型")
     @Bind(R.id.tv_choosecard)
     TextView tv_choosecard;
-    @Bind(R.id.tv_getcode)
-    TextView tv_getcode;
     private Validator validator;
+    private String userId;
+    private AsyncHttpClient client = new AsyncHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,21 +69,39 @@ public class HighTalentActivity extends BaseActivity {
     }
 
     protected void initViewsAndEvents() {
+        userId = getIntent().getStringExtra("userId");
         validator = new Validator(this);
         validator.setValidationListener(new ValidationUtils.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
                 super.onValidationSucceeded();
+                talentRegister();
+            }
+
+
+        });
+    }
+
+    private void talentRegister() {
+        showLoad("加载中...");
+        RequestParams params = new RequestParams();
+        params.put("userId", userId);
+        params.put("idCard", et_sdcard.getEditableText().toString().trim());
+        params.put("certificate", tv_choosecard.getText().toString().trim());
+        params.put("certificateNum", et_cardnum.getEditableText().toString().trim());
+        params.put("workHistory", et_work.getEditableText().toString().trim());
+        params.put("learnHistory", et_study.getEditableText().toString().trim());
+        params.put("companyName", "-1");
+        params.put("companyContent", "-1");
+        client.post(Constants.BASE_URL + "telentAccept", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, String s) {
+                super.onSuccess(i, s);
+                dismiss();
             }
         });
     }
 
-    @OnClick(R.id.tv_getcode)
-    void tv_getcode() {
-        if (!StringUtils.isMobileNumber(et_tel.getEditableText().toString().trim())) {
-            showToast("请输入正确的手机号码");
-        }
-    }
 
     @OnClick(R.id.tv_choosecard)
     void tv_choosecard() {

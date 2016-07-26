@@ -68,6 +68,6 @@ public class MyChuangyeActivity extends BaseActivity {
     @Override
     public void doing() {
         super.doing();
-        startActivityForNoIntent(MyBeansActivity.class);
+        startActivityForNoIntent(MyBeansActivity2.class);
     }
 }

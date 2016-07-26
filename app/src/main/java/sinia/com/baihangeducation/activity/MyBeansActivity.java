@@ -41,7 +41,7 @@ public class MyBeansActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_beans, "我的创业豆");
+        setContentView(R.layout.activity_my_beans2, "我的创业豆");
         getDoingView().setVisibility(View.GONE);
         initData();
     }

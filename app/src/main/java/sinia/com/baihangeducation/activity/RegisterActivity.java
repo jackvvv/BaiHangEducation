@@ -1,5 +1,6 @@
 package sinia.com.baihangeducation.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -41,17 +42,23 @@ public class RegisterActivity extends BaseActivity {
 
     @OnClick(R.id.tv_company)
     void tv_company() {
-        startActivityForNoIntent(CompanyRegisterActivity.class);
+        Intent intent = new Intent();
+        intent.putExtra("type", "3");
+        startActivityForIntent(StudentRegisterActivity.class, intent);
     }
 
     @OnClick(R.id.tv_student)
     void tv_student() {
-        startActivityForNoIntent(StudentRegisterActivity.class);
+        Intent intent = new Intent();
+        intent.putExtra("type", "1");
+        startActivityForIntent(StudentRegisterActivity.class, intent);
     }
 
     @OnClick(R.id.tv_high)
     void tv_high() {
-        startActivityForNoIntent(HighTalentActivity.class);
+        Intent intent = new Intent();
+        intent.putExtra("type", "2");
+        startActivityForIntent(StudentRegisterActivity.class, intent);
     }
 
 }

@@ -24,7 +24,7 @@ public class BeansRecordAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 13;
+        return 30;
     }
 
     @Override

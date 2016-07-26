@@ -5,6 +5,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -17,6 +20,7 @@ import butterknife.OnClick;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.actionsheetdialog.ActionSheetDialogUtils;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.utils.Constants;
 import sinia.com.baihangeducation.utils.StringUtils;
 import sinia.com.baihangeducation.utils.ValidationUtils;
 
@@ -24,35 +28,19 @@ import sinia.com.baihangeducation.utils.ValidationUtils;
  * Created by 忧郁的眼神 on 2016/7/15.
  */
 public class CompanyRegisterActivity extends BaseActivity {
-    @Pattern(regex = "(\\+\\d+)?1[34578]\\d{9}$", message = "请输入正确的手机号码")
     @Order(1)
-    @Bind(R.id.et_tel)
-    EditText et_tel;
-    @NotEmpty(message = "请输入验证码")
-    @Order(2)
-    @Bind(R.id.et_code)
-    EditText et_code;
-    @Password(sequence = 1, message = "请输入密码")
-    @Order(3)
-    @Bind(R.id.et_pwd)
-    EditText et_pwd;
-    @ConfirmPassword(message = "两次输入的密码不一致")
-    @Order(4)
-    @Bind(R.id.et_confirm)
-    EditText et_confirm;
-    @Order(5)
     @NotEmpty(message = "请填写企业名称")
     @Bind(R.id.et_name)
     EditText et_name;
-    @Order(6)
+    @Order(2)
     @NotEmpty(message = "请填写企业介绍")
     @Bind(R.id.et_detail)
     EditText et_detail;
     @Bind(R.id.tv_register)
     TextView tv_register;
-    @Bind(R.id.tv_getcode)
-    TextView tv_getcode;
     private Validator validator;
+    private String userId;
+    private AsyncHttpClient client = new AsyncHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,21 +51,33 @@ public class CompanyRegisterActivity extends BaseActivity {
     }
 
     protected void initViewsAndEvents() {
+        userId = getIntent().getStringExtra("userId");
         validator = new Validator(this);
         validator.setValidationListener(new ValidationUtils.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
                 super.onValidationSucceeded();
+                companyRegister();
+            }
+
+        });
+    }
+
+    private void companyRegister() {
+        showLoad("加载中...");
+        RequestParams params = new RequestParams();
+        params.put("userId", userId);
+        params.put("companyName", et_name.getEditableText().toString().trim());
+        params.put("companyContent", et_detail.getEditableText().toString().trim());
+        client.post(Constants.BASE_URL + "companyAccept", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, String s) {
+                super.onSuccess(i, s);
+                dismiss();
             }
         });
     }
 
-    @OnClick(R.id.tv_getcode)
-    void tv_getcode() {
-        if (!StringUtils.isMobileNumber(et_tel.getEditableText().toString().trim())) {
-            showToast("请输入正确的手机号码");
-        }
-    }
 
     @OnClick(R.id.tv_register)
     void tv_register() {

@@ -1,10 +1,13 @@
 package sinia.com.baihangeducation.base;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -19,6 +22,7 @@ import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.AppInfoUtil;
 import sinia.com.baihangeducation.utils.SystemBarTintManager;
+import sinia.com.baihangeducation.view.loadingview.LoadingView;
 
 /**
  * Created by 忧郁的眼神 on 2016/7/14.
@@ -42,6 +46,7 @@ public class BaseActivity extends AppCompatActivity {
     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
     private SystemBarTintManager mTintManager;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,6 +252,30 @@ public class BaseActivity extends AppCompatActivity {
                 winParams.flags &= ~bits;
             }
             win.setAttributes(winParams);
+        }
+    }
+
+    private View mDialogContentView;
+    private LoadingView mLoadingView;
+
+    public void showLoad(String text) {
+        dialog = new Dialog(this, R.style.custom_dialog);
+        mDialogContentView = LayoutInflater.from(this).inflate(
+                R.layout.layout_loading_dialog, null);
+        mLoadingView = (LoadingView) mDialogContentView
+                .findViewById(R.id.loadView);
+        mLoadingView.setLoadingText(text);
+        Display d = getWindowManager().getDefaultDisplay();
+        dialog.show();
+        dialog.setContentView(mDialogContentView, new ViewGroup.LayoutParams((int) (d.getWidth() * 0.5),
+                (int) (d.getHeight() * 0.3)));
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.setCanceledOnTouchOutside(false);
+    }
+
+    public void dismiss() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
     }
 

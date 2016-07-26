@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import sinia.com.baihangeducation.R;

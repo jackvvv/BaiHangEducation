@@ -65,6 +65,7 @@
         <activity android:name=".activity.MyJobActivity" />
         <activity android:name=".activity.MyChuangyeActivity" />
         <activity android:name=".activity.MyBeansActivity" />
+        <activity android:name=".activity.MyBeansActivity2" />
         <activity android:name=".activity.WithdrawActivity" />
         <activity android:name=".activity.RechargeActivity" />
         <activity android:name=".activity.BeansIntroduceActivity" />

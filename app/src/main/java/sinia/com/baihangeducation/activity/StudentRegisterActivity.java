@@ -1,10 +1,16 @@
 package sinia.com.baihangeducation.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -16,6 +22,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.utils.Constants;
 import sinia.com.baihangeducation.utils.StringUtil;
 import sinia.com.baihangeducation.utils.StringUtils;
 import sinia.com.baihangeducation.utils.ValidationUtils;
@@ -45,6 +52,9 @@ public class StudentRegisterActivity extends BaseActivity {
     @Bind(R.id.tv_getcode)
     TextView tv_getcode;
     private Validator validator;
+    private AsyncHttpClient client = new AsyncHttpClient();
+    private int i = 60;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,25 +65,110 @@ public class StudentRegisterActivity extends BaseActivity {
     }
 
     protected void initViewsAndEvents() {
+        type = getIntent().getStringExtra("type");
         validator = new Validator(this);
         validator.setValidationListener(new ValidationUtils.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
                 super.onValidationSucceeded();
+                register();
+            }
+
+        });
+    }
+
+    private void register() {
+        showLoad("加载中...");
+        RequestParams params = new RequestParams();
+        params.put("volidateCode", et_code.getEditableText().toString().trim());
+        params.put("type", type);
+//        params.put("idCard", "-1");
+//        params.put("certificate", "-1");
+//        params.put("certificateNum", "-1");
+//        params.put("workHistory", "-1");
+//        params.put("learnHistory", "-1");
+//        params.put("companyName", "-1");
+//        params.put("companyContent", "-1");
+        params.put("password", et_pwd.getEditableText().toString().trim());
+        params.put("telephone", et_tel.getEditableText().toString().trim());
+        client.post(Constants.BASE_URL + "regist", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, String s) {
+                super.onSuccess(i, s);
+                dismiss();
+                if("1".equals(type)){
+                    //进入首页
+                }else if("2".equals(type)){
+                    Intent intent = new Intent();
+                    intent.putExtra("userId", "2");
+                    startActivityForIntent(HighTalentActivity.class,intent);
+                }else{
+                    Intent intent = new Intent();
+                    intent.putExtra("userId", "2");
+                    startActivityForIntent(CompanyRegisterActivity.class,intent);
+                }
             }
         });
     }
+
 
     @OnClick(R.id.tv_getcode)
     void tv_getcode() {
         if (!StringUtils.isMobileNumber(et_tel.getEditableText().toString().trim())) {
             showToast("请输入正确的手机号码");
+        } else {
+            tv_getcode.setClickable(false);
+            tv_getcode.setText("重新发送(" + i + ")");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (; i > 0; i--) {
+                        handler.sendEmptyMessage(-9);
+                        if (i <= 0) {
+                            break;
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    handler.sendEmptyMessage(-8);
+                }
+            }).start();
+            getCode();
         }
+    }
+
+    private void getCode() {
+        RequestParams params = new RequestParams();
+        params.put("telephone", et_tel.getEditableText().toString().trim());
+        client.post(Constants.BASE_URL + "gainvolidate", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, String s) {
+                super.onSuccess(i, s);
+            }
+        });
     }
 
     @OnClick(R.id.tv_register)
     void tv_register() {
         validator.validate();
     }
+
+    Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == -9) {
+                tv_getcode.setText("重新发送(" + i + ")");
+            } else if (msg.what == -8) {
+                tv_getcode.setText("获取验证码");
+                tv_getcode.setClickable(true);
+                i = 60;
+            }
+        }
+    };
 
 }
