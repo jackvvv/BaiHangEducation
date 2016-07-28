@@ -33,7 +33,7 @@ public class ChuangyeFoundActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chuangye_found, "创业基金");
+        setContentView(R.layout.activity_chuangye_found, "创业");
         getDoingView().setVisibility(View.GONE);
     }
 

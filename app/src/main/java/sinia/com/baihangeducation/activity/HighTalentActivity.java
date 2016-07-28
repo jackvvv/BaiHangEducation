@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -22,7 +23,11 @@ import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.actionsheetdialog.ActionSheetDialog;
 import sinia.com.baihangeducation.actionsheetdialog.ActionSheetDialogUtils;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.bean.JsonBean;
+import sinia.com.baihangeducation.bean.RegisterBean;
+import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.Constants;
+import sinia.com.baihangeducation.utils.MyApplication;
 import sinia.com.baihangeducation.utils.StringUtils;
 import sinia.com.baihangeducation.utils.ValidationUtils;
 
@@ -87,17 +92,35 @@ public class HighTalentActivity extends BaseActivity {
         RequestParams params = new RequestParams();
         params.put("userId", userId);
         params.put("idCard", et_sdcard.getEditableText().toString().trim());
+        params.put("userName", et_name.getEditableText().toString().trim());
         params.put("certificate", tv_choosecard.getText().toString().trim());
         params.put("certificateNum", et_cardnum.getEditableText().toString().trim());
         params.put("workHistory", et_work.getEditableText().toString().trim());
         params.put("learnHistory", et_study.getEditableText().toString().trim());
-        params.put("companyName", "-1");
-        params.put("companyContent", "-1");
         client.post(Constants.BASE_URL + "telentAccept", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, String s) {
                 super.onSuccess(i, s);
                 dismiss();
+                Gson gson = new Gson();
+                if (s.contains("isSuccessful")
+                        && s.contains("state")) {
+                    JsonBean bean = gson.fromJson(s, JsonBean.class);
+                    int state = bean.getState();
+                    int isSuccessful = bean.getIsSuccessful();
+                    if (0 == state && 0 == isSuccessful) {
+                        showToast("认证成功");
+                        MyApplication.getInstance().setBooleanValue(
+                                "is_login", true);
+                        MyApplication.getInstance().setStringValue(
+                                "userId", userId);
+                        startActivityForNoIntent(MainActivity.class);
+                        ActivityManager.getInstance()
+                                .finishCurrentActivity();
+                    } else {
+                        showToast("认证失败");
+                    }
+                }
             }
         });
     }

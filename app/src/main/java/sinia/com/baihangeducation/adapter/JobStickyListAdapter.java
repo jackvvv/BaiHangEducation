@@ -8,8 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.List;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import sinia.com.baihangeducation.R;
+import sinia.com.baihangeducation.bean.JobBean;
 import sinia.com.baihangeducation.utils.ViewHolder;
 
 /**
@@ -19,9 +22,11 @@ public class JobStickyListAdapter extends BaseAdapter implements StickyListHeade
 
     private Context context;
     private LayoutInflater inflater;
+    private List<JobBean.ItemsEntity> list;
 
-    public JobStickyListAdapter(Context context) {
+    public JobStickyListAdapter(Context context, List<JobBean.ItemsEntity> list) {
         this.context = context;
+        this.list = list;
         inflater = LayoutInflater.from(context);
     }
 
@@ -31,6 +36,7 @@ public class JobStickyListAdapter extends BaseAdapter implements StickyListHeade
             convertView = inflater.inflate(R.layout.header_job, null);
         }
         TextView tv_header = ViewHolder.get(convertView, R.id.tv_header);
+        tv_header.setText(list.get(position).getPositionType());
         return convertView;
     }
 
@@ -41,7 +47,7 @@ public class JobStickyListAdapter extends BaseAdapter implements StickyListHeade
 
     @Override
     public int getCount() {
-        return 15;
+        return list.size();
     }
 
     @Override
@@ -61,6 +67,9 @@ public class JobStickyListAdapter extends BaseAdapter implements StickyListHeade
         }
         TextView tv_job = ViewHolder.get(convertView, R.id.tv_job);
         CheckBox check_box = ViewHolder.get(convertView, R.id.check_box);
+        for (int i = 0; i < list.get(position).getItems2().size(); i++) {
+            tv_job.setText(list.get(position).getItems2().get(i).getPositionSmall());
+        }
         return convertView;
     }
 }

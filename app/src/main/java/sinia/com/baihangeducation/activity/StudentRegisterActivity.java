@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -22,8 +23,10 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.bean.RegisterBean;
+import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.Constants;
-import sinia.com.baihangeducation.utils.StringUtil;
+import sinia.com.baihangeducation.utils.MyApplication;
 import sinia.com.baihangeducation.utils.StringUtils;
 import sinia.com.baihangeducation.utils.ValidationUtils;
 
@@ -82,33 +85,49 @@ public class StudentRegisterActivity extends BaseActivity {
         RequestParams params = new RequestParams();
         params.put("volidateCode", et_code.getEditableText().toString().trim());
         params.put("type", type);
-//        params.put("idCard", "-1");
-//        params.put("certificate", "-1");
-//        params.put("certificateNum", "-1");
-//        params.put("workHistory", "-1");
-//        params.put("learnHistory", "-1");
-//        params.put("companyName", "-1");
-//        params.put("companyContent", "-1");
         params.put("password", et_pwd.getEditableText().toString().trim());
         params.put("telephone", et_tel.getEditableText().toString().trim());
         client.post(Constants.BASE_URL + "regist", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, String s) {
-                super.onSuccess(i, s);
-                dismiss();
-                if("1".equals(type)){
-                    //进入首页
-                }else if("2".equals(type)){
-                    Intent intent = new Intent();
-                    intent.putExtra("userId", "2");
-                    startActivityForIntent(HighTalentActivity.class,intent);
-                }else{
-                    Intent intent = new Intent();
-                    intent.putExtra("userId", "2");
-                    startActivityForIntent(CompanyRegisterActivity.class,intent);
+                    @Override
+                    public void onSuccess(int i, String s) {
+                        super.onSuccess(i, s);
+                        dismiss();
+                        Gson gson = new Gson();
+                        if (s.contains("isSuccessful")
+                                && s.contains("state")) {
+                            RegisterBean bean = gson.fromJson(s, RegisterBean.class);
+                            int state = bean.getState();
+                            int isSuccessful = bean.getIsSuccessful();
+                            if (0 == state && 0 == isSuccessful) {
+                                if ("1".equals(type)) {
+                                    MyApplication.getInstance().setBooleanValue(
+                                            "is_login", true);
+                                    MyApplication.getInstance().setStringValue(
+                                            "userId", bean.getCustomerId());
+                                    //进入首页
+                                    startActivityForNoIntent(MainActivity.class);
+                                    ActivityManager.getInstance()
+                                            .finishCurrentActivity();
+                                } else if ("2".equals(type)) {
+                                    Intent intent = new Intent();
+                                    intent.putExtra("userId", bean.getCustomerId());
+                                    startActivityForIntent(HighTalentActivity.class, intent);
+                                } else {
+                                    Intent intent = new Intent();
+                                    intent.putExtra("userId", bean.getCustomerId());
+                                    startActivityForIntent(CompanyRegisterActivity.class, intent);
+                                }
+                            } else if (0 == state && 1 == isSuccessful) {
+                                showToast("您的手机号已经注册过了");
+                            } else {
+                                showToast("注册失败");
+                            }
+                        }
+
+                    }
                 }
-            }
-        });
+
+        );
     }
 
 

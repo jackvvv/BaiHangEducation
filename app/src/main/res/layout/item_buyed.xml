@@ -48,7 +48,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/img"
             android:layout_toRightOf="@+id/img"
-            android:text="大学生创业基金"
+            android:text="大学生创业"
             android:textColor="@color/textblackColor"
             android:textSize="16sp" />
 

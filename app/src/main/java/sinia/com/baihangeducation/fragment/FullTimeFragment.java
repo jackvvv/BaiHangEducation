@@ -56,6 +56,7 @@ public class FullTimeFragment extends Fragment {
     void rl_info() {
         Intent intent = new Intent(getActivity(),
                 PersonalInfoActivity.class);
+        intent.putExtra("workType","1");
         startActivity(intent);
     }
 
@@ -63,6 +64,7 @@ public class FullTimeFragment extends Fragment {
     void rl_type() {
         Intent intent = new Intent(getActivity(),
                 JobTypeActivity.class);
+        intent.putExtra("workType","2");
         startActivity(intent);
     }
 
