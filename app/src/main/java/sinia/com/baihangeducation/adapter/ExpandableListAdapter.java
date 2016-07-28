@@ -9,11 +9,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.bean.JobBean;
+import sinia.com.baihangeducation.myinterface.UpdateChoosedJob;
 import sinia.com.baihangeducation.utils.ViewHolder;
 
 /**
@@ -26,6 +28,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
     private static HashMap<Integer, Boolean> isSelected = new HashMap<Integer, Boolean>();
     private HashMap<String, String> jobs = new HashMap<String, String>();
+    private List<String> chooseJobList = new ArrayList<>();
 
     public ExpandableListAdapter(Context context, List<JobBean.ItemsEntity> list) {
         this.context = context;
@@ -106,21 +109,43 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             @Override
             public void onClick(View v) {
+                UpdateChoosedJob updateChoosedJob = (UpdateChoosedJob)context;
                 if (getIsSelected().get(childPosition)) {
                     getIsSelected().put(childPosition, false);
                     check_box.setChecked(false);
                     if (jobs.containsKey(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall())) {
                         jobs.remove(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
                     }
+                    if(chooseJobList.contains(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall())){
+                        chooseJobList.remove(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
+                    }
+                    updateChoosedJob.updatechoosedJobList(chooseJobList);
                 } else {
                     if (jobs.size() < 3) {
                         check_box.setChecked(true);
                         getIsSelected().put(childPosition, true);
+                        chooseJobList.add(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
                         jobs.put(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall(), list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
+                        updateChoosedJob.updatechoosedJobList(chooseJobList);
                     } else {
                         Toast.makeText(context, "最多选择3个职位", Toast.LENGTH_SHORT).show();
                     }
 
+                }
+                if(check_box.isChecked()){
+                    check_box.setChecked(false);
+                    if(chooseJobList.contains(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall())){
+                        chooseJobList.remove(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
+                        updateChoosedJob.updatechoosedJobList(chooseJobList);
+                    }
+                }else{
+                    if (jobs.size() < 3) {
+                        check_box.setChecked(true);
+                        chooseJobList.add(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
+                        updateChoosedJob.updatechoosedJobList(chooseJobList);
+                    } else {
+                        Toast.makeText(context, "最多选择3个职位", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

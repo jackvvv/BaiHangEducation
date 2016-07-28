@@ -29,12 +29,13 @@ import sinia.com.baihangeducation.adapter.JobStickyListAdapter;
 import sinia.com.baihangeducation.base.BaseActivity;
 import sinia.com.baihangeducation.bean.JobBean;
 import sinia.com.baihangeducation.bean.JsonBean;
+import sinia.com.baihangeducation.myinterface.UpdateChoosedJob;
 import sinia.com.baihangeducation.utils.Constants;
 
 /**
  * Created by 忧郁的眼神 on 2016/7/19.
  */
-public class JobTypeActivity extends BaseActivity {
+public class JobTypeActivity extends BaseActivity implements UpdateChoosedJob {
 
     @Bind(R.id.tv_num)
     TextView tv_num;
@@ -51,6 +52,7 @@ public class JobTypeActivity extends BaseActivity {
     private String workType;
     private AsyncHttpClient client = new AsyncHttpClient();
     private List<JobBean.ItemsEntity> list = new ArrayList<JobBean.ItemsEntity>();
+    private List<String> choosedList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +98,11 @@ public class JobTypeActivity extends BaseActivity {
         // 设置默认图标为不显示状态
         list_job.setGroupIndicator(null);
         jobadapter = new ExpandableListAdapter(this, list);
+        for (int i = 0; i < list.size(); i++) {
+            jobadapter.getIsSelected().put(i, false);
+        }
         list_job.setAdapter(jobadapter);
-        gridAdapter = new ChoosedJobGridAdapter(this);
+        gridAdapter = new ChoosedJobGridAdapter(this, choosedList);
         grid_job.setAdapter(gridAdapter);
 
     }
@@ -119,5 +124,12 @@ public class JobTypeActivity extends BaseActivity {
             animation.setFillAfter(true);
             img_jt.startAnimation(animation);
         }
+    }
+
+    @Override
+    public void updatechoosedJobList(List<String> list) {
+        choosedList.clear();
+        choosedList.addAll(list);
+        gridAdapter.notifyDataSetChanged();
     }
 }

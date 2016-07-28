@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.utils.ViewHolder;
 
@@ -15,14 +17,16 @@ import sinia.com.baihangeducation.utils.ViewHolder;
  */
 public class ChoosedJobGridAdapter extends BaseAdapter {
     private Context context;
+    private List<String> choosedList;
 
-    public ChoosedJobGridAdapter(Context context) {
+    public ChoosedJobGridAdapter(Context context, List<String> choosedList) {
         this.context = context;
+        this.choosedList = choosedList;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return choosedList.size();
     }
 
     @Override
@@ -41,6 +45,7 @@ public class ChoosedJobGridAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_choosed_job, null);
         }
         TextView tv_job = ViewHolder.get(convertView, R.id.tv_job);
+        tv_job.setText(choosedList.get(position));
         return convertView;
     }
 }
