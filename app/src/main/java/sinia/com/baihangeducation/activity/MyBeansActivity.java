@@ -48,7 +48,7 @@ public class MyBeansActivity extends BaseActivity {
 
     private void initData() {
         View headView = LayoutInflater.from(this).inflate(R.layout.mybeans_headview, null);
-        adapter = new BeansRecordAdapter(this);
+//        adapter = new BeansRecordAdapter(this);
         listview.setAdapter(adapter);
         listview.setEmptyView(tv_norecord);
     }

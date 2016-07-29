@@ -35,7 +35,7 @@
             android:layout_alignBottom="@+id/img"
             android:layout_alignLeft="@+id/tv_name"
             android:layout_alignStart="@+id/tv_name"
-            android:text="金额：300元"
+            android:text="起投金额：300元"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView

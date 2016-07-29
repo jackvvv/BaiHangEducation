@@ -216,7 +216,7 @@
         android:padding="12dp">
 
         <TextView
-            android:id="@+id/tv_email"
+            android:id="@+id/tv_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -231,8 +231,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="27dp"
             android:layout_marginStart="27dp"
-            android:layout_toEndOf="@+id/tv_email"
-            android:layout_toRightOf="@+id/tv_email"
+            android:layout_toEndOf="@+id/tv_contact"
+            android:layout_toRightOf="@+id/tv_contact"
             android:background="@null"
             android:inputType="textEmailAddress"
             android:maxLength="30"

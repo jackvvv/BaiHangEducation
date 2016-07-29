@@ -23,6 +23,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.bean.JsonBean;
 import sinia.com.baihangeducation.bean.RegisterBean;
 import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.Constants;
@@ -34,7 +35,7 @@ import sinia.com.baihangeducation.utils.ValidationUtils;
  * Created by 忧郁的眼神 on 2016/7/15.
  */
 public class StudentRegisterActivity extends BaseActivity {
-    @Pattern(regex = "(\\+\\d+)?1[34578]\\d{9}$", message = "请输入正确的手机号码")
+    @Pattern(regex = "^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$", message = "请输入正确的手机号码")
     @Order(1)
     @Bind(R.id.et_tel)
     EditText et_tel;
@@ -62,7 +63,7 @@ public class StudentRegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_register, "学生就业");
+        setContentView(R.layout.activity_student_register, "注册");
         getDoingView().setVisibility(View.GONE);
         initViewsAndEvents();
     }
@@ -160,12 +161,28 @@ public class StudentRegisterActivity extends BaseActivity {
     }
 
     private void getCode() {
+        showLoad("正在发送短信...");
         RequestParams params = new RequestParams();
         params.put("telephone", et_tel.getEditableText().toString().trim());
         client.post(Constants.BASE_URL + "gainvolidate", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, String s) {
                 super.onSuccess(i, s);
+                dismiss();
+                Gson gson = new Gson();
+                if (s.contains("isSuccessful")
+                        && s.contains("state")) {
+                    JsonBean bean = gson.fromJson(s, JsonBean.class);
+                    int state = bean.getState();
+                    int isSuccessful = bean.getIsSuccessful();
+                    if (0 == state && 0 == isSuccessful) {
+                        showToast("验证码已发送");
+                    } else if (0 == state && 1 == isSuccessful) {
+                        showToast("该手机号已经被注册");
+                    } else {
+                        showToast("发送失败");
+                    }
+                }
             }
         });
     }
@@ -175,7 +192,7 @@ public class StudentRegisterActivity extends BaseActivity {
         validator.validate();
     }
 
-    Handler handler = new Handler() {
+    private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {

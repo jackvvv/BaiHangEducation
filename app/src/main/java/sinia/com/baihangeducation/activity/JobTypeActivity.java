@@ -1,5 +1,6 @@
 package sinia.com.baihangeducation.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ import sinia.com.baihangeducation.base.BaseActivity;
 import sinia.com.baihangeducation.bean.JobBean;
 import sinia.com.baihangeducation.bean.JsonBean;
 import sinia.com.baihangeducation.myinterface.UpdateChoosedJob;
+import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.Constants;
 
 /**
@@ -52,13 +55,13 @@ public class JobTypeActivity extends BaseActivity implements UpdateChoosedJob {
     private String workType;
     private AsyncHttpClient client = new AsyncHttpClient();
     private List<JobBean.ItemsEntity> list = new ArrayList<JobBean.ItemsEntity>();
-    private List<String> choosedList = new ArrayList<String>();
+    private ArrayList<String> choosedList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_type2, "职业类别");
-        getDoingView().setText("保存");
+        getDoingView().setVisibility(View.GONE);
         getJobList();
         initData();
     }
@@ -84,6 +87,9 @@ public class JobTypeActivity extends BaseActivity implements UpdateChoosedJob {
                         list.clear();
                         list.addAll(bean.getItems());
                         jobadapter.notifyDataSetChanged();
+                        for (int a = 0; a < list.size(); a++) {
+                            jobadapter.getIsSelected().put(a, false);
+                        }
                         int groupCount = list_job.getCount();
                         for (int a = 0; a < groupCount; a++) {
                             list_job.expandGroup(a);
@@ -98,9 +104,6 @@ public class JobTypeActivity extends BaseActivity implements UpdateChoosedJob {
         // 设置默认图标为不显示状态
         list_job.setGroupIndicator(null);
         jobadapter = new ExpandableListAdapter(this, list);
-        for (int i = 0; i < list.size(); i++) {
-            jobadapter.getIsSelected().put(i, false);
-        }
         list_job.setAdapter(jobadapter);
         gridAdapter = new ChoosedJobGridAdapter(this, choosedList);
         grid_job.setAdapter(gridAdapter);
@@ -128,8 +131,31 @@ public class JobTypeActivity extends BaseActivity implements UpdateChoosedJob {
 
     @Override
     public void updatechoosedJobList(List<String> list) {
+        tv_num.setText(list.size() + "/3");
         choosedList.clear();
         choosedList.addAll(list);
         gridAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (choosedList.size() != 0) {
+            Intent intent = new Intent();
+            intent.putStringArrayListExtra("joblist", choosedList);
+            setResult(RESULT_OK, intent);
+        }
+        ActivityManager.getInstance().finishCurrentActivity();
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void back() {
+        super.back();
+        if (choosedList.size() != 0) {
+            Intent intent = new Intent();
+            intent.putStringArrayListExtra("joblist", choosedList);
+            setResult(RESULT_OK, intent);
+        }
+        ActivityManager.getInstance().finishCurrentActivity();
     }
 }

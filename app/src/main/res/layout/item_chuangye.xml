@@ -25,8 +25,7 @@
         android:layout_toRightOf="@+id/img"
         android:text="大学生创业基金"
         android:textColor="#aa000000"
-        android:textSize="16sp"
-        android:visibility="invisible" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_num"
@@ -46,8 +45,7 @@
         android:layout_alignLeft="@+id/tv_num"
         android:layout_alignStart="@+id/tv_num"
         android:text="起保金额:500万"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:visibility="invisible" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/tv_toubao"
@@ -58,7 +56,7 @@
         android:layout_centerVertical="true"
         android:background="@drawable/btn_toubao"
         android:padding="8dp"
-        android:text="去投"
+        android:text="去投保"
         android:textColor="#fff"
         android:textSize="15sp" />
 </RelativeLayout>

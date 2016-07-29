@@ -128,7 +128,19 @@ public class HighTalentActivity extends BaseActivity {
 
     @OnClick(R.id.tv_choosecard)
     void tv_choosecard() {
-        ActionSheetDialogUtils.createCardDialog(this, tv_choosecard);
+//        ActionSheetDialogUtils.createCardDialog(this, tv_choosecard);
+        Intent intent = new Intent(HighTalentActivity.this, CardActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == -1) {
+            if (requestCode == 1) {
+                tv_choosecard.setText(data.getStringExtra("card"));
+            }
+        }
     }
 
     @OnClick(R.id.tv_register)

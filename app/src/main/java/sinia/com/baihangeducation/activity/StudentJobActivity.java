@@ -32,8 +32,6 @@ public class StudentJobActivity extends BaseActivity {
     TabLayout tab_title;
     @Bind(R.id.viewPager)
     ViewPager viewPager;
-    @Bind(R.id.tv_ok)
-    TextView tv_ok;
 
     private MyFragmentPagerAdapter pagerAdapter;
 
@@ -65,11 +63,6 @@ public class StudentJobActivity extends BaseActivity {
         tab_title.addTab(tab_title.newTab().setText(titleList.get(0)));
         tab_title.addTab(tab_title.newTab().setText(titleList.get(1)));
         tab_title.setupWithViewPager(viewPager);
-    }
-
-    @OnClick(R.id.tv_ok)
-    void tv_ok() {
-
     }
 
 }

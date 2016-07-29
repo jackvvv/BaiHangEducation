@@ -8,7 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import sinia.com.baihangeducation.R;
+import sinia.com.baihangeducation.bean.FundBean;
+import sinia.com.baihangeducation.utils.BitmapUtilsHelp;
 import sinia.com.baihangeducation.utils.ViewHolder;
 
 /**
@@ -18,13 +22,16 @@ public class ChuangyeAdapter extends BaseAdapter {
 
     private Context context;
 
-    public ChuangyeAdapter(Context context) {
+    private List<FundBean.ItemsEntity> list;
+
+    public ChuangyeAdapter(Context context, List<FundBean.ItemsEntity> list) {
         this.context = context;
+        this.list = list;
     }
 
     @Override
     public int getCount() {
-        return 8;
+        return list.size();
     }
 
     @Override
@@ -47,6 +54,11 @@ public class ChuangyeAdapter extends BaseAdapter {
         TextView tv_money = ViewHolder.get(convertView, R.id.tv_money);
         TextView tv_toubao = ViewHolder.get(convertView, R.id.tv_toubao);
         ImageView img = ViewHolder.get(convertView, R.id.img);
+
+        tv_title.setText(list.get(position).getFundName());
+        tv_num.setText("已投保人数:" + list.get(position).getNumber());
+        tv_money.setText("起保金额:" + list.get(position).getPrice() + "元");
+        BitmapUtilsHelp.getImage(context).display(img, list.get(position).getFundIamge());
         return convertView;
     }
 }

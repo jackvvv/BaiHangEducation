@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import sinia.com.baihangeducation.R;
+import sinia.com.baihangeducation.bean.MyChuangYeBean;
+import sinia.com.baihangeducation.bean.MyJobBean;
 import sinia.com.baihangeducation.utils.ViewHolder;
 
 /**
@@ -16,14 +20,16 @@ import sinia.com.baihangeducation.utils.ViewHolder;
 public class MyJobAdapter extends BaseAdapter {
 
     private Context mContext;
+    private List<MyJobBean.ItemsEntity> list;
 
-    public MyJobAdapter(Context mContext) {
+    public MyJobAdapter(Context mContext, List<MyJobBean.ItemsEntity> list) {
         this.mContext = mContext;
+        this.list = list;
     }
 
     @Override
     public int getCount() {
-        return 6;
+        return list.size();
     }
 
     @Override
@@ -46,6 +52,10 @@ public class MyJobAdapter extends BaseAdapter {
         TextView tv_job = ViewHolder.get(convertView, R.id.tv_job);
         TextView tv_tel = ViewHolder.get(convertView, R.id.tv_tel);
         TextView tv_time = ViewHolder.get(convertView, R.id.tv_time);
+        tv_name.setText("公司名称：" + list.get(position).getCompanyName());
+        tv_job.setText("招聘职位：" + list.get(position).getPosition());
+        tv_tel.setText("联系方式：" + list.get(position).getTelephone());
+        tv_time.setText(list.get(position).getCreateTime());
         return convertView;
     }
 }

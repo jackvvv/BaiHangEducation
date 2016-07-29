@@ -3,6 +3,7 @@ package sinia.com.baihangeducation.activity;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
@@ -21,7 +26,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.bean.PersonalBean;
 import sinia.com.baihangeducation.utils.AppInfoUtil;
+import sinia.com.baihangeducation.utils.BitmapUtilsHelp;
+import sinia.com.baihangeducation.utils.Constants;
+import sinia.com.baihangeducation.utils.MyApplication;
 import sinia.com.baihangeducation.utils.ValidationUtils;
 
 public class MainActivity extends BaseActivity {
@@ -39,12 +48,42 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.tv_rencai)
     TextView tv_rencai;
 
+    private AsyncHttpClient client = new AsyncHttpClient();
+    private PersonalBean bean;
+    private String talentType;//人才认证状态(0.未认证1.认证审核中2.认证审核成功3.认证审核失败)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initViews();
+        getData();
+    }
+
+    private void getData() {
+        RequestParams params = new RequestParams();
+        params.put("userId", MyApplication.getInstance().getStringValue("userId"));
+        Log.i("tag", Constants.BASE_URL + "personalCenter&" + params);
+        client.post(Constants.BASE_URL + "personalCenter", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, String s) {
+                super.onSuccess(i, s);
+                dismiss();
+                Gson gson = new Gson();
+                if (s.contains("isSuccessful")
+                        && s.contains("state")) {
+                    bean = gson.fromJson(s, PersonalBean.class);
+                    int state = bean.getState();
+                    int isSuccessful = bean.getIsSuccessful();
+                    if (0 == state && 0 == isSuccessful) {
+                        talentType = bean.getTalentType();
+                    } else {
+                        showToast("请求失败");
+                    }
+                }
+            }
+        });
     }
 
     private void initViews() {
@@ -81,7 +120,11 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.tv_rencai)
     void tv_rencai() {
-        startActivityForNoIntent(LoginActivity.class);
+        if("2".equals(talentType)){
+            showToast("已通过人才认证");
+        }else{
+            showToast("您还不是高级人才，需要提交资料并审核");
+        }
     }
 
     private void setTranslucentStatus(boolean on) {

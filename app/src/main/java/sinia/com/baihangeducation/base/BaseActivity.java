@@ -162,6 +162,9 @@ public class BaseActivity extends AppCompatActivity {
         });
     }
 
+    protected void back(){
+    }
+
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sinia.com.baihangeducation.R;
@@ -17,9 +18,9 @@ import sinia.com.baihangeducation.utils.ViewHolder;
  */
 public class ChoosedJobGridAdapter extends BaseAdapter {
     private Context context;
-    private List<String> choosedList;
+    private ArrayList<String> choosedList;
 
-    public ChoosedJobGridAdapter(Context context, List<String> choosedList) {
+    public ChoosedJobGridAdapter(Context context, ArrayList<String> choosedList) {
         this.context = context;
         this.choosedList = choosedList;
     }

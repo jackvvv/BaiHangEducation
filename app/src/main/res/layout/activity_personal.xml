@@ -6,13 +6,14 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_person"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/img_head"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:scaleType="fitXY"
@@ -22,11 +23,11 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView4"
+            android:layout_alignTop="@+id/img_head"
             android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/imageView4"
-            android:layout_toRightOf="@+id/imageView4"
-            android:text="姓名"
+            android:layout_toEndOf="@+id/img_head"
+            android:layout_toRightOf="@+id/img_head"
+            android:text="姓名："
             android:textColor="#aa000000"
             android:textSize="16sp" />
 
@@ -34,10 +35,10 @@
             android:id="@+id/tv_tel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageView4"
+            android:layout_alignBottom="@+id/img_head"
             android:layout_alignLeft="@+id/tv_name"
             android:layout_alignStart="@+id/tv_name"
-            android:text="电话：1888888888"
+            android:text="电话："
             android:textColor="#aa000000"
             android:textSize="16sp" />
     </RelativeLayout>

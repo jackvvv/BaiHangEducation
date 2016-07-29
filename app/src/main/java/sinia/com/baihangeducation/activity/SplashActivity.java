@@ -13,6 +13,7 @@ import java.util.TimerTask;
 import butterknife.Bind;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.MyApplication;
 
 /**
@@ -38,11 +39,11 @@ public class SplashActivity extends BaseActivity {
                     Intent intent = new Intent(SplashActivity.this,
                             MainActivity.class);
                     startActivity(intent);
-                    SplashActivity.this.finish();
+                    ActivityManager.getInstance().finishCurrentActivity();
                 } else {
                     startActivityForNoIntent(LoginActivity.class);
 //                    startActivityForNoIntent(MainActivity.class);
-                    SplashActivity.this.finish();
+                    ActivityManager.getInstance().finishCurrentActivity();
                 }
             }
         };

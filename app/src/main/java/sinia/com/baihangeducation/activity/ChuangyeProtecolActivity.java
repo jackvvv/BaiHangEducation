@@ -30,6 +30,7 @@ public class ChuangyeProtecolActivity extends BaseActivity {
     @OnClick(R.id.tv_agree)
     void tv_agree() {
         startActivityForNoIntent(ChuangYeActivity.class);
+        ActivityManager.getInstance().finishCurrentActivity();
     }
 
     @OnClick(R.id.tv_disagree)

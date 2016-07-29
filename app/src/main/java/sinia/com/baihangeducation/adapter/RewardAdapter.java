@@ -8,7 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import sinia.com.baihangeducation.R;
+import sinia.com.baihangeducation.bean.MyChuangYeBean;
+import sinia.com.baihangeducation.utils.BitmapUtilsHelp;
 import sinia.com.baihangeducation.utils.ViewHolder;
 
 /**
@@ -18,13 +22,16 @@ public class RewardAdapter extends BaseAdapter {
 
     private Context mContext;
 
-    public RewardAdapter(Context mContext) {
+    private List<MyChuangYeBean.ItemsEntity> list;
+
+    public RewardAdapter(Context mContext, List<MyChuangYeBean.ItemsEntity> list) {
         this.mContext = mContext;
+        this.list = list;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return list.size();
     }
 
     @Override
@@ -47,6 +54,17 @@ public class RewardAdapter extends BaseAdapter {
         TextView tv_name = ViewHolder.get(convertView, R.id.tv_name);
         TextView tv_money = ViewHolder.get(convertView, R.id.tv_money);
         TextView tv_status = ViewHolder.get(convertView, R.id.tv_status);
+
+        BitmapUtilsHelp.getImage(mContext).display(img, list.get(position).getImageUrl());
+        tv_name.setText(list.get(position).getFundName());
+        tv_money.setText("起投金额：" + list.get(position).getPrice());
+        if ("3".equals(list.get(position).getState())) {
+            tv_status.setText("已领取");
+            tv_status.setBackgroundResource(R.drawable.btn_notbuy);
+        } else if ("4".equals(list.get(position).getState())) {
+            tv_status.setText("未领取");
+            tv_status.setBackgroundResource(R.drawable.btn_buy);
+        }
         return convertView;
     }
 }

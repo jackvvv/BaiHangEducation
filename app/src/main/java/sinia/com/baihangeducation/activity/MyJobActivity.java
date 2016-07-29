@@ -3,15 +3,27 @@ package sinia.com.baihangeducation.activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.adapter.MyJobAdapter;
 import sinia.com.baihangeducation.base.BaseActivity;
+import sinia.com.baihangeducation.bean.JsonBean;
+import sinia.com.baihangeducation.bean.MyChuangYeBean;
+import sinia.com.baihangeducation.bean.MyJobBean;
 import sinia.com.baihangeducation.utils.AppInfoUtil;
+import sinia.com.baihangeducation.utils.Constants;
+import sinia.com.baihangeducation.utils.MyApplication;
 import sinia.com.baihangeducation.view.swipmenulistview.SwipeMenu;
 import sinia.com.baihangeducation.view.swipmenulistview.SwipeMenuCreator;
 import sinia.com.baihangeducation.view.swipmenulistview.SwipeMenuItem;
@@ -24,20 +36,50 @@ public class MyJobActivity extends BaseActivity {
 
     @Bind(R.id.listview)
     SwipeMenuListView listview;
-
+    //myJobList
     private MyJobAdapter adapter;
+    private AsyncHttpClient client = new AsyncHttpClient();
+    private List<MyJobBean.ItemsEntity> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myjob, "我的工作");
         getDoingView().setVisibility(View.GONE);
-
+        getMyJobList();
         initData();
     }
 
+    private void getMyJobList() {
+        showLoad("加载中...");
+        RequestParams params = new RequestParams();
+        params.put("customerId", MyApplication.getInstance().getStringValue("userId"));
+        Log.i("tag", Constants.BASE_URL + "myJobList&" + params);
+        client.post(Constants.BASE_URL + "myJobList", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, String s) {
+                super.onSuccess(i, s);
+                dismiss();
+                Gson gson = new Gson();
+                if (s.contains("isSuccessful")
+                        && s.contains("state")) {
+                    MyJobBean bean = gson.fromJson(s, MyJobBean.class);
+                    int state = bean.getState();
+                    int isSuccessful = bean.getIsSuccessful();
+                    if (0 == state && 0 == isSuccessful) {
+                        list.clear();
+                        list.addAll(bean.getItems());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        showToast("请求失败");
+                    }
+                }
+            }
+        });
+    }
+
     private void initData() {
-        adapter = new MyJobAdapter(this);
+        adapter = new MyJobAdapter(this,list);
         listview.setAdapter(adapter);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
@@ -69,6 +111,10 @@ public class MyJobActivity extends BaseActivity {
                                            int index) {
                 switch (index) {
                     case 0:
+//                        String id = list.get(position).getCompanyId();
+//                        deleteOrder(id, position);
+                        list.remove(position);
+                        adapter.notifyDataSetChanged();
                         break;
                 }
                 return false;
@@ -96,6 +142,34 @@ public class MyJobActivity extends BaseActivity {
 
             @Override
             public void onMenuClose(int position) {
+            }
+        });
+    }
+
+    private void deleteOrder(String id, final int position) {
+        showLoad("删除中...");
+        RequestParams params = new RequestParams();
+        params.put("userId", MyApplication.getInstance().getStringValue("userId"));
+        params.put("companyId", id);
+        Log.i("tag", Constants.BASE_URL + "delMyJob&" + params);
+        client.post(Constants.BASE_URL + "delMyJob", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, String s) {
+                super.onSuccess(i, s);
+                dismiss();
+                Gson gson = new Gson();
+                if (s.contains("isSuccessful")
+                        && s.contains("state")) {
+                    JsonBean bean = gson.fromJson(s, JsonBean.class);
+                    int state = bean.getState();
+                    int isSuccessful = bean.getIsSuccessful();
+                    if (0 == state && 0 == isSuccessful) {
+                        list.remove(position);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        showToast("请求失败");
+                    }
+                }
             }
         });
     }

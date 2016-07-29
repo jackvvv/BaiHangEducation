@@ -16,18 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/tv_norecord"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
-            android:paddingBottom="40dp"
-            android:visibility="gone"
-            android:text="最近30天无兑换记录"
-            android:textColor="#aa000000"
-            android:textSize="18sp" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -58,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="当前余豆余点"
+                        android:text="当前余豆"
                         android:textColor="#313131"
                         android:textSize="14sp" />
 
@@ -88,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="20"
+                        android:text="0"
                         android:textColor="@color/themeColor"
                         android:textSize="28sp" />
 
@@ -107,6 +95,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:text="30点"
+                        android:visibility="invisible"
                         android:textColor="@color/themeColor"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -129,6 +118,7 @@
                         android:background="@drawable/btn_withdraw"
                         android:gravity="center"
                         android:text="提现"
+                        android:visibility="gone"
                         android:textColor="#fff"
                         android:textSize="16sp" />
 
@@ -149,13 +139,26 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="40dp"
             android:background="#EFF0F0"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="最近30天交易明细"
             android:textColor="#303030"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_norecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:background="#EFF0F0"
+            android:visibility="gone"
+            android:paddingBottom="40dp"
+            android:text="最近30天无兑换记录"
+            android:textColor="#aa000000"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </FrameLayout>

@@ -77,7 +77,7 @@ public class StringUtils {
 
 	public static boolean isMobileNumber(String mobiles) {
 		Pattern p = Pattern
-				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,1,5-9]))\\d{8}$");
+				.compile("^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$");
 		Matcher m = p.matcher(mobiles);
 		return m.matches();
 	}

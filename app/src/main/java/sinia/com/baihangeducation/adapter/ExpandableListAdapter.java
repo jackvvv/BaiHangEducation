@@ -132,21 +132,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     }
 
                 }
-                if(check_box.isChecked()){
-                    check_box.setChecked(false);
-                    if(chooseJobList.contains(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall())){
-                        chooseJobList.remove(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
-                        updateChoosedJob.updatechoosedJobList(chooseJobList);
-                    }
-                }else{
-                    if (jobs.size() < 3) {
-                        check_box.setChecked(true);
-                        chooseJobList.add(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
-                        updateChoosedJob.updatechoosedJobList(chooseJobList);
-                    } else {
-                        Toast.makeText(context, "最多选择3个职位", Toast.LENGTH_SHORT).show();
-                    }
-                }
             }
         });
         return convertView;
