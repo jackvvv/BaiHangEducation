@@ -112,11 +112,11 @@ public class MyBeansActivity2 extends BaseActivity implements ObservableScrollVi
 
         adapter = new BeansRecordAdapter(this, list);
         mListView.setAdapter(adapter);
-        if (list.size() == 0) {
-            tv_norecord.setVisibility(View.VISIBLE);
-        } else {
-            tv_norecord.setVisibility(View.GONE);
-        }
+//        if (list.size() == 0) {
+//            tv_norecord.setVisibility(View.VISIBLE);
+//        } else {
+//            tv_norecord.setVisibility(View.GONE);
+//        }
     }
 
     @OnClick(R.id.tv_withdraw)

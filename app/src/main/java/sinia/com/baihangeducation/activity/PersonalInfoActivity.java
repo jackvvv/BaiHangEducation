@@ -81,7 +81,7 @@ public class PersonalInfoActivity extends BaseActivity {
         showLoad("加载中...");
         RequestParams params = new RequestParams();
         params.put("userId", MyApplication.getInstance().getStringValue("userId"));
-        Log.i("tag",Constants.BASE_URL + "querypersonalresume&"+params);
+        Log.i("tag", Constants.BASE_URL + "querypersonalresume&" + params);
         client.post(Constants.BASE_URL + "querypersonalresume", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, String s) {
@@ -94,18 +94,18 @@ public class PersonalInfoActivity extends BaseActivity {
                     int state = bean.getState();
                     int isSuccessful = bean.getIsSuccessful();
                     if (0 == state && 0 == isSuccessful) {
-                        if (null != bean) {
-                            et_name.setText(bean.getName());
-                            if ("1".equals(bean.getSex())) {
+                        if (null != bean && null != bean.getItems().get(0)) {
+                            et_name.setText(bean.getItems().get(0).getName());
+                            if ("1".equals(bean.getItems().get(0).getSex())) {
                                 tv_sex.setText("男");
                             } else {
                                 tv_sex.setText("女");
                             }
-                            tv_birthday.setText(bean.getBirth());
-                            et_city.setText(bean.getCity());
-                            et_tel.setText(bean.getTelephone());
-                            et_email.setText(bean.getEmail());
-                            MyApplication.getInstance().setStringValue("resumeId",bean.getResumeId());
+                            tv_birthday.setText(bean.getItems().get(0).getBirth());
+                            et_city.setText(bean.getItems().get(0).getCity());
+                            et_tel.setText(bean.getItems().get(0).getTelephone());
+                            et_email.setText(bean.getItems().get(0).getEmail());
+                            MyApplication.getInstance().setStringValue("resumeId", bean.getItems().get(0).getResumeId());
                         }
                     } else {
                     }
@@ -143,7 +143,7 @@ public class PersonalInfoActivity extends BaseActivity {
         } else {
             params.put("sex", "2");
         }
-        Log.i("tag",Constants.BASE_URL + "personalresume&"+params);
+        Log.i("tag", Constants.BASE_URL + "personalresume&" + params);
         client.post(Constants.BASE_URL + "personalresume", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, String s) {

@@ -56,6 +56,33 @@ public class DialogUtils {
         return dialog;
     }
 
+    public static Dialog createPublicDialog(final Context context,
+                                            final OnOkListener okListener) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_public, null);
+        dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (display.getWidth() - 160); // 设置宽度
+        lp.height = (display.getHeight() * 1 / 5); // 设置高度
+        dialog.getWindow().setAttributes(lp);
+        dialog.setContentView(v, lp);
+        final TextView cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                dialog.dismiss();
+                ActivityManager.getInstance().finishCurrentActivity();
+            }
+        });
+        return dialog;
+    }
+
     public interface OnOkListener {
         public void onClick();
     }

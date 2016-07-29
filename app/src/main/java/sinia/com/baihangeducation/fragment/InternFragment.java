@@ -1,12 +1,20 @@
 package sinia.com.baihangeducation.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,8 +35,10 @@ import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.activity.JobTypeActivity;
 import sinia.com.baihangeducation.activity.PersonalInfoActivity;
 import sinia.com.baihangeducation.activity.SelectCityActivity;
+import sinia.com.baihangeducation.activity.StudentJobActivity;
 import sinia.com.baihangeducation.base.BaseFragment;
 import sinia.com.baihangeducation.bean.JsonBean;
+import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.Constants;
 import sinia.com.baihangeducation.utils.MyApplication;
 import sinia.com.baihangeducation.utils.StringUtil;
@@ -123,13 +133,41 @@ public class InternFragment extends BaseFragment {
                     int state = bean.getState();
                     int isSuccessful = bean.getIsSuccessful();
                     if (0 == state && 0 == isSuccessful) {
-                        showToast("发布求职信息成功");
+                        createPublicDialog(getActivity());
                     } else {
                         showToast("发布求职信息失败");
                     }
                 }
             }
         });
+    }
+
+    public static Dialog dialog;
+
+    public static Dialog createPublicDialog(final Context context) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_public, null);
+        dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (display.getWidth() - 160); // 设置宽度
+        lp.height = (display.getHeight() * 1 / 5); // 设置高度
+        dialog.getWindow().setAttributes(lp);
+        dialog.setContentView(v, lp);
+        final TextView cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                dialog.dismiss();
+                ActivityManager.getInstance().finishActivity(StudentJobActivity.class);
+            }
+        });
+        return dialog;
     }
 
     @Override
