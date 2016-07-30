@@ -23,6 +23,7 @@ import sinia.com.baihangeducation.bean.SubmitOrderBean;
 import sinia.com.baihangeducation.utils.BitmapUtilsHelp;
 import sinia.com.baihangeducation.utils.Constants;
 import sinia.com.baihangeducation.utils.MyApplication;
+import sinia.com.baihangeducation.utils.StringUtil;
 
 /**
  * Created by 忧郁的眼神 on 2016/7/20.
@@ -44,7 +45,7 @@ public class ChuangyeFoundActivity extends BaseActivity {
     @Bind(R.id.tv_ok)
     TextView tv_ok;
 
-    private String fundId, fundName, startMoney = "0";
+    private String fundId, fundName, startMoney = "0", bigNum;//最大购买份数
     private AsyncHttpClient client = new AsyncHttpClient();
 
     @Override
@@ -78,6 +79,7 @@ public class ChuangyeFoundActivity extends BaseActivity {
                         tv_content.setText(bean.getFundContent());
                         startMoney = bean.getPrice();
                         tv_money.setText(bean.getPrice());
+                        bigNum = bean.getBigNum();
                     } else {
                         showToast("请求失败");
                     }
@@ -98,9 +100,18 @@ public class ChuangyeFoundActivity extends BaseActivity {
 
     @OnClick(R.id.img_jia)
     void img_jia() {
-        tv_num.setText(Integer.parseInt(tv_num.getText().toString()) + 1 + "");
-        tv_money.setText("" + Integer.parseInt(startMoney)
-                * Integer.parseInt(tv_num.getText().toString()));
+        if (!StringUtil.isEmpty(bigNum)) {
+            if (Integer.parseInt(tv_num.getText().toString()) >= Integer.parseInt(bigNum)) {
+                showToast("超过最大购买份数");
+            } else {
+                tv_num.setText(Integer.parseInt(tv_num.getText().toString()) + 1 + "");
+                tv_money.setText("" + Integer.parseInt(startMoney)
+                        * Integer.parseInt(tv_num.getText().toString()));
+            }
+        }else{
+            showToast("超过最大购买份数");
+        }
+
     }
 
     @OnClick(R.id.tv_ok)
@@ -139,7 +150,7 @@ public class ChuangyeFoundActivity extends BaseActivity {
                         intent.putExtra("fundName", fundName);
                         intent.putExtra("buyNum", tv_num.getText().toString());
                         intent.putExtra("price", tv_money.getEditableText().toString());
-                        startActivityForIntent(ConfirmOrderActivity.class,intent);
+                        startActivityForIntent(ConfirmOrderActivity.class, intent);
                     } else {
                         showToast("请求失败");
                     }

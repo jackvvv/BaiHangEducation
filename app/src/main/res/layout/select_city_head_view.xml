@@ -36,7 +36,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="南京"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="上海"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
 
         <TextView
@@ -69,7 +69,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="苏州"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -95,7 +95,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="杭州"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
 
         <TextView
@@ -112,7 +112,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="北京"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
 
         <TextView
@@ -128,7 +128,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="深圳"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -154,7 +154,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="广州"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
 
         <TextView
@@ -171,7 +171,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="重庆"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
 
         <TextView
@@ -187,7 +187,7 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="武汉"
-            android:textColor="#aa000000"
+            android:textColor="@drawable/color_selector"
             android:textSize="16sp" />
     </LinearLayout>
 

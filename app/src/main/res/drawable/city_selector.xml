@@ -5,4 +5,5 @@
     <item android:drawable="@color/themeColor" android:state_enabled="true" android:state_focused="true"/>
     <item android:drawable="@color/textgray2" android:state_enabled="false" android:state_focused="false"/>
 
+
 </selector>

@@ -121,13 +121,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     }
                     updateChoosedJob.updatechoosedJobList(chooseJobList);
                 } else {
-                    if (jobs.size() < 3) {
+                    if (chooseJobList.size() < 3) {
                         check_box.setChecked(true);
                         getIsSelected().put(childPosition, true);
                         chooseJobList.add(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
                         jobs.put(list.get(groupPosition).getItems2().get(childPosition).getPositionSmall(), list.get(groupPosition).getItems2().get(childPosition).getPositionSmall());
                         updateChoosedJob.updatechoosedJobList(chooseJobList);
                     } else {
+                        check_box.setChecked(false);
                         Toast.makeText(context, "最多选择3个职位", Toast.LENGTH_SHORT).show();
                     }
 

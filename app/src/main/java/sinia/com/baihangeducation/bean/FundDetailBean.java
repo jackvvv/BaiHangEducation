@@ -12,6 +12,15 @@ public class FundDetailBean implements Serializable {
     private String fundContent;
     private String price;
     private String imageUrl;
+    private String bigNum;
+
+    public String getBigNum() {
+        return bigNum;
+    }
+
+    public void setBigNum(String bigNum) {
+        this.bigNum = bigNum;
+    }
 
     public int getIsSuccessful() {
         return isSuccessful;

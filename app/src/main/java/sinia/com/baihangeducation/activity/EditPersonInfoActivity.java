@@ -113,6 +113,7 @@ public class EditPersonInfoActivity extends BaseActivity {
     private void initData() {
         progressDialog = new ProgressDialog(this);
         bean = (PersonalBean) getIntent().getSerializableExtra("bean");
+        imgUrl = bean.getImageUrl();
         BitmapUtilsHelp.getImage(this).display(img_head, bean.getImageUrl());
         et_name.setText(bean.getUserName());
         et_tel.setText(bean.getPersonPhone());

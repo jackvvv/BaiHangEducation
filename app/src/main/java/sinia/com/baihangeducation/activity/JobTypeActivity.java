@@ -1,14 +1,19 @@
 package sinia.com.baihangeducation.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -33,6 +38,7 @@ import sinia.com.baihangeducation.bean.JobBean;
 import sinia.com.baihangeducation.bean.JsonBean;
 import sinia.com.baihangeducation.myinterface.UpdateChoosedJob;
 import sinia.com.baihangeducation.utils.ActivityManager;
+import sinia.com.baihangeducation.utils.AppInfoUtil;
 import sinia.com.baihangeducation.utils.Constants;
 
 /**
@@ -40,8 +46,14 @@ import sinia.com.baihangeducation.utils.Constants;
  */
 public class JobTypeActivity extends BaseActivity implements UpdateChoosedJob {
 
+    @Bind(R.id.rl_title)
+    RelativeLayout rl_title;
     @Bind(R.id.tv_num)
     TextView tv_num;
+    @Bind(R.id.doing)
+    TextView doing;
+    @Bind(R.id.back)
+    ImageView back;
     @Bind(R.id.img_jt)
     ImageView img_jt;
     @Bind(R.id.grid_job)
@@ -60,10 +72,23 @@ public class JobTypeActivity extends BaseActivity implements UpdateChoosedJob {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_type2, "职业类别");
-        getDoingView().setVisibility(View.GONE);
+        setContentView(R.layout.activity_job_type2);
+        ButterKnife.bind(this);
+        initViews();
         getJobList();
         initData();
+    }
+
+    private void initViews() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+        }
+        int stateHeight = AppInfoUtil.getStateHeight(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, AppInfoUtil.dip2px(this, 45)
+        );
+        layoutParams.topMargin = stateHeight;
+        rl_title.setLayoutParams(layoutParams);
     }
 
     private void getJobList() {
@@ -148,14 +173,35 @@ public class JobTypeActivity extends BaseActivity implements UpdateChoosedJob {
         super.onBackPressed();
     }
 
-    @Override
-    protected void back() {
-        super.back();
+    @OnClick(R.id.doing)
+    public void doing() {
         if (choosedList.size() != 0) {
             Intent intent = new Intent();
             intent.putStringArrayListExtra("joblist", choosedList);
             setResult(RESULT_OK, intent);
         }
         ActivityManager.getInstance().finishCurrentActivity();
+    }
+
+    @OnClick(R.id.back)
+    protected void back() {
+        if (choosedList.size() != 0) {
+            Intent intent = new Intent();
+            intent.putStringArrayListExtra("joblist", choosedList);
+            setResult(RESULT_OK, intent);
+        }
+        ActivityManager.getInstance().finishCurrentActivity();
+    }
+
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 }

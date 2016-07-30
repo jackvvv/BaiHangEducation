@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="20豆30点"
+            android:text="0豆"
             android:textColor="@color/themeColor"
             android:textSize="16sp" />
     </LinearLayout>
@@ -43,6 +43,8 @@
             android:background="@drawable/gray_round_edit"
             android:hint="请输入充值的金额"
             android:padding="5dp"
+            android:maxLength="4"
+            android:inputType="numberDecimal"
             android:singleLine="true"
             android:textCursorDrawable="@null"
             android:textSize="16sp" />
@@ -86,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
+                android:padding="5dp"
                 android:src="@drawable/ic_notcheck" />
 
             <ImageView
@@ -137,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
+                android:padding="5dp"
                 android:src="@drawable/ic_checked" />
 
             <ImageView

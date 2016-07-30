@@ -1,5 +1,6 @@
 package sinia.com.baihangeducation.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
@@ -60,14 +61,20 @@ public class MyBeansActivity2 extends BaseActivity implements ObservableScrollVi
     private BeansRecordAdapter adapter;
     private AsyncHttpClient client = new AsyncHttpClient();
     private List<MyDouBean.Beans> list = new ArrayList<>();
+    private String dou="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_beans2, "我的创业豆");
         getDoingView().setVisibility(View.GONE);
-        getMyBeans();
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getMyBeans();
     }
 
     private void getMyBeans() {
@@ -87,6 +94,7 @@ public class MyBeansActivity2 extends BaseActivity implements ObservableScrollVi
                     int state = bean.getState();
                     int isSuccessful = bean.getIsSuccessful();
                     if (0 == state && 0 == isSuccessful) {
+                        dou = bean.getDou();
                         tv_beans.setText(bean.getDou());
                         list.clear();
                         list.addAll(bean.getItems());
@@ -126,7 +134,9 @@ public class MyBeansActivity2 extends BaseActivity implements ObservableScrollVi
 
     @OnClick(R.id.tv_recharge)
     void tv_recharge() {
-        startActivityForNoIntent(RechargeActivity.class);
+        Intent intent = new Intent();
+        intent.putExtra("dou", dou);
+        startActivityForIntent(RechargeActivity.class, intent);
     }
 
     @OnClick(R.id.tv_detail)

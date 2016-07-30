@@ -163,7 +163,8 @@
                         android:hint="请输入起投金额"
                         android:gravity="center"
                         android:textSize="14sp"
-                        android:inputType="number"
+                        android:maxLength="4"
+                        android:inputType="numberDecimal"
                         android:textCursorDrawable="@null" />
                 </RelativeLayout>
             </LinearLayout>
