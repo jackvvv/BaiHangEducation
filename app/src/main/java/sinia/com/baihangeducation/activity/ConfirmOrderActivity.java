@@ -195,7 +195,7 @@ public class ConfirmOrderActivity extends BaseActivity {
      */
     private void payWithAliPay() {
         // 订单
-        String orderInfo = getOrderInfo("百航教育支付", "百航教育支付", "0.01");
+        String orderInfo = getOrderInfo("就业邦支付", "就业邦支付", "0.01");
 
         // 对订单做RSA 签名
         String sign = sign(orderInfo);

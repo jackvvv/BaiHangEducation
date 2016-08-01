@@ -59,6 +59,7 @@ public class MainActivity extends BaseActivity {
     private AsyncHttpClient client = new AsyncHttpClient();
     private PersonalBean bean;
     private String talentType;//人才认证状态(0.未认证1.认证审核中2.认证审核成功3.认证审核失败)
+    private String companyType;//企业认证状态(0.未认证1.认证审核中2.认证审核成功3.认证审核失败)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class MainActivity extends BaseActivity {
                     int isSuccessful = bean.getIsSuccessful();
                     if (0 == state && 0 == isSuccessful) {
                         talentType = bean.getTalentType();
+                        companyType = bean.getCompanyType();
                     } else {
                         showToast("请求失败");
                     }
@@ -123,7 +125,15 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.tv_company)
     void tv_company() {
-        startActivityForNoIntent(CompanyWantedActivity.class);
+        if ("2".equals(companyType)) {
+            startActivityForNoIntent(CompanyWantedActivity.class);
+        } else if ("1".equals(companyType)) {
+            showToast("企业认证正在审核中...");
+        } else if ("3".equals(companyType)) {
+            createCheckFailedDialog(this, "2");
+        } else {
+            createTipsDialog(this, "2");
+        }
     }
 
     @OnClick(R.id.tv_chuangye)
@@ -138,15 +148,15 @@ public class MainActivity extends BaseActivity {
         } else if ("1".equals(talentType)) {
             showToast("您的人才认证正在审核中...");
         } else if ("3".equals(talentType)) {
-            createCheckFailedDialog(this);
+            createCheckFailedDialog(this, "1");
         } else {
-            createTipsDialog(this);
+            createTipsDialog(this, "1");
         }
     }
 
     public Dialog dialog;
 
-    public Dialog createTipsDialog(final Context context) {
+    public Dialog createTipsDialog(final Context context, final String type) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_tips, null);
         dialog = new AlertDialog.Builder(context).create();
@@ -158,6 +168,7 @@ public class MainActivity extends BaseActivity {
         WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
         lp.width = (display.getWidth() - 100); // 设置宽度
         dialog.getWindow().setAttributes(lp);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(v, lp);
         final TextView cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
         final TextView tv_ok = (TextView) dialog.findViewById(R.id.tv_ok);
@@ -168,7 +179,11 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.putExtra("fromHome", "1");
                 intent.putExtra("userId", MyApplication.getInstance().getStringValue("userId"));
-                startActivityForIntent(HighTalentActivity.class, intent);
+                if (type.equals("1")) {
+                    startActivityForIntent(HighTalentActivity.class, intent);
+                } else {
+                    startActivityForIntent(CompanyRegisterActivity.class, intent);
+                }
                 dialog.dismiss();
             }
         });
@@ -182,7 +197,7 @@ public class MainActivity extends BaseActivity {
         return dialog;
     }
 
-    public Dialog createCheckFailedDialog(final Context context) {
+    public Dialog createCheckFailedDialog(final Context context, final String type) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_check_failed, null);
         dialog = new AlertDialog.Builder(context).create();
@@ -194,6 +209,7 @@ public class MainActivity extends BaseActivity {
         WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
         lp.width = (display.getWidth() - 100); // 设置宽度
         dialog.getWindow().setAttributes(lp);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(v, lp);
         final TextView cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
         final TextView tv_ok = (TextView) dialog.findViewById(R.id.tv_ok);
@@ -204,7 +220,11 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.putExtra("fromHome", "1");
                 intent.putExtra("userId", MyApplication.getInstance().getStringValue("userId"));
-                startActivityForIntent(HighTalentActivity.class, intent);
+                if (type.equals("1")) {
+                    startActivityForIntent(HighTalentActivity.class, intent);
+                } else {
+                    startActivityForIntent(CompanyRegisterActivity.class, intent);
+                }
                 dialog.dismiss();
             }
         });

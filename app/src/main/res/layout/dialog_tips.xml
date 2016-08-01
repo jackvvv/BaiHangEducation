@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="您还不是高级人才，需要提交资料"
+                android:text="您还未通过审核，需要提交资料"
                 android:textColor="#cc000000"
                 android:textSize="14sp" />
 

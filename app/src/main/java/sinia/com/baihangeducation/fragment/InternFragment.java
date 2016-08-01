@@ -190,6 +190,7 @@ public class InternFragment extends BaseFragment {
         lp.width = (display.getWidth() - 160); // 设置宽度
         lp.height = (display.getHeight() * 1 / 5); // 设置高度
         dialog.getWindow().setAttributes(lp);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(v, lp);
         final TextView cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {

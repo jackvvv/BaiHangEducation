@@ -22,7 +22,7 @@
         android:layout_below="@+id/imageView5"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:text="百航教育 v1.0"
+        android:text="就业邦 v1.0"
         android:textSize="15sp" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_above="@+id/textView6"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:text="百航教育许可及服务协议"
+        android:text="就业邦许可及服务协议"
         android:textSize="13sp" />
 
 </RelativeLayout>

@@ -124,7 +124,7 @@ public class HighTalentActivity extends BaseActivity {
                         ActivityManager.getInstance()
                                 .finishCurrentActivity();
                     } else {
-                        showToast("提交失败");
+                        showToast("认证失败");
                     }
                 }
             }

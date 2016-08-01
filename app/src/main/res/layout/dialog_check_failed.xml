@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:text="您的人才认证失败，是否重新认证？"
+                android:text="您的认证审核失败，是否重新认证？"
                 android:textColor="#cc000000"
                 android:textSize="14sp" />
 

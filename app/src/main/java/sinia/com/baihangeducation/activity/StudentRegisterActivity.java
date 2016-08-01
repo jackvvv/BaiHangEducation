@@ -117,6 +117,7 @@ public class StudentRegisterActivity extends BaseActivity {
                                 } else {
                                     Intent intent = new Intent();
                                     intent.putExtra("userId", bean.getCustomerId());
+                                    intent.putExtra("fromHome", "2");
                                     startActivityForIntent(CompanyRegisterActivity.class, intent);
                                 }
                             } else if (0 == state && 1 == isSuccessful) {

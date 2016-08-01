@@ -45,6 +45,7 @@ public class CompanyRegisterActivity extends BaseActivity {
     private Validator validator;
     private String userId;
     private AsyncHttpClient client = new AsyncHttpClient();
+    private String isFromHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class CompanyRegisterActivity extends BaseActivity {
 
     protected void initViewsAndEvents() {
         userId = getIntent().getStringExtra("userId");
+        isFromHome = getIntent().getStringExtra("fromHome");
         validator = new Validator(this);
         validator.setValidationListener(new ValidationUtils.ValidationListener() {
             @Override
@@ -85,16 +87,20 @@ public class CompanyRegisterActivity extends BaseActivity {
                     int state = bean.getState();
                     int isSuccessful = bean.getIsSuccessful();
                     if (0 == state && 0 == isSuccessful) {
-                        showToast("认证成功");
+                        showToast("提交成功");
                         MyApplication.getInstance().setBooleanValue(
                                 "is_login", true);
                         MyApplication.getInstance().setStringValue(
                                 "userId", userId);
-                        startActivityForNoIntent(MainActivity.class);
+                        if (isFromHome.equals("1")){
+
+                        }else{
+                            startActivityForNoIntent(MainActivity.class);
+                        }
                         ActivityManager.getInstance()
                                 .finishCurrentActivity();
                     } else {
-                        showToast("认证失败");
+                        showToast("提交失败");
                     }
                 }
             }
