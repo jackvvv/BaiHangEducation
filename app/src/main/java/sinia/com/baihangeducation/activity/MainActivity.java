@@ -31,6 +31,7 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.drakeet.materialdialog.MaterialDialog;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.base.BaseActivity;
 import sinia.com.baihangeducation.bean.PersonalBean;
@@ -60,6 +61,8 @@ public class MainActivity extends BaseActivity {
     private PersonalBean bean;
     private String talentType;//人才认证状态(0.未认证1.认证审核中2.认证审核成功3.认证审核失败)
     private String companyType;//企业认证状态(0.未认证1.认证审核中2.认证审核成功3.认证审核失败)
+
+    private MaterialDialog materialDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,9 +133,41 @@ public class MainActivity extends BaseActivity {
         } else if ("1".equals(companyType)) {
             showToast("企业认证正在审核中...");
         } else if ("3".equals(companyType)) {
-            createCheckFailedDialog(this, "2");
+            materialDialog = new MaterialDialog(this);
+            materialDialog.setTitle("提示").setMessage("您的认证审核失败，是否重新认证？")
+                    .setPositiveButton("去审核", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.putExtra("fromHome", "1");
+                            intent.putExtra("userId", MyApplication.getInstance().getStringValue("userId"));
+                            startActivityForIntent(CompanyRegisterActivity.class, intent);
+                            materialDialog.dismiss();
+                        }
+                    }).setNegativeButton("知道了", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    materialDialog.dismiss();
+                }
+            }).show();
         } else {
-            createTipsDialog(this, "2");
+            materialDialog = new MaterialDialog(this);
+            materialDialog.setTitle("提示").setMessage("您还未通过审核，需要提交资料并审核。")
+                    .setPositiveButton("去审核", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.putExtra("fromHome", "1");
+                            intent.putExtra("userId", MyApplication.getInstance().getStringValue("userId"));
+                            startActivityForIntent(CompanyRegisterActivity.class, intent);
+                            materialDialog.dismiss();
+                        }
+                    }).setNegativeButton("知道了", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    materialDialog.dismiss();
+                }
+            }).show();
         }
     }
 
@@ -148,9 +183,41 @@ public class MainActivity extends BaseActivity {
         } else if ("1".equals(talentType)) {
             showToast("您的人才认证正在审核中...");
         } else if ("3".equals(talentType)) {
-            createCheckFailedDialog(this, "1");
+            materialDialog = new MaterialDialog(this);
+            materialDialog.setTitle("提示").setMessage("您的认证审核失败，是否重新认证？")
+                    .setPositiveButton("去审核", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.putExtra("fromHome", "1");
+                            intent.putExtra("userId", MyApplication.getInstance().getStringValue("userId"));
+                            startActivityForIntent(HighTalentActivity.class, intent);
+                            materialDialog.dismiss();
+                        }
+                    }).setNegativeButton("知道了", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    materialDialog.dismiss();
+                }
+            }).show();
         } else {
-            createTipsDialog(this, "1");
+            materialDialog = new MaterialDialog(this);
+            materialDialog.setTitle("提示").setMessage("您还未通过审核，需要提交资料并审核。")
+                    .setPositiveButton("去审核", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.putExtra("fromHome", "1");
+                            intent.putExtra("userId", MyApplication.getInstance().getStringValue("userId"));
+                            startActivityForIntent(HighTalentActivity.class, intent);
+                            materialDialog.dismiss();
+                        }
+                    }).setNegativeButton("知道了", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    materialDialog.dismiss();
+                }
+            }).show();
         }
     }
 

@@ -32,7 +32,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.drakeet.materialdialog.MaterialDialog;
 import sinia.com.baihangeducation.R;
+import sinia.com.baihangeducation.activity.CompanyRegisterActivity;
 import sinia.com.baihangeducation.activity.JobTypeActivity;
 import sinia.com.baihangeducation.activity.PersonalInfoActivity;
 import sinia.com.baihangeducation.activity.SelectCityActivity;
@@ -70,6 +72,7 @@ public class FullTimeFragment extends BaseFragment {
     private List<String> jobList = new ArrayList<>();
     private String jobIds, workCity, resumeId;
     private AsyncHttpClient client = new AsyncHttpClient();
+    private MaterialDialog materialDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -168,7 +171,7 @@ public class FullTimeFragment extends BaseFragment {
                     int state = bean.getState();
                     int isSuccessful = bean.getIsSuccessful();
                     if (0 == state && 0 == isSuccessful) {
-                        createPublicDialog(getActivity());
+                        createPublicDialog();
                     } else {
                         showToast("发布求职信息失败");
                     }
@@ -177,33 +180,16 @@ public class FullTimeFragment extends BaseFragment {
         });
     }
 
-    public static Dialog dialog;
-
-    public static Dialog createPublicDialog(final Context context) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.dialog_public, null);
-        dialog = new AlertDialog.Builder(context).create();
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置
-        WindowManager windowManager = ((Activity) context).getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-        lp.width = (display.getWidth() - 100); // 设置宽度
-//        lp.height = (display.getHeight() * 1 / 4); // 设置高度
-        dialog.getWindow().setAttributes(lp);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setContentView(v, lp);
-        final TextView cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                dialog.dismiss();
-                ActivityManager.getInstance().finishActivity(StudentJobActivity.class);
-            }
-        });
-        return dialog;
+    public void createPublicDialog() {
+        materialDialog = new MaterialDialog(getActivity());
+        materialDialog.setTitle("提示").setMessage("恭喜你发布成功，我们会在15个工作日内给您推送工作职务，到时请您查看个人中心消息推送。")
+                .setPositiveButton("知道了", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialDialog.dismiss();
+                        ActivityManager.getInstance().finishActivity(StudentJobActivity.class);
+                    }
+                }).show();
     }
 
     @Override
