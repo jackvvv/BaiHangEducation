@@ -112,6 +112,7 @@ public class StudentRegisterActivity extends BaseActivity {
                                 } else if ("2".equals(type)) {
                                     Intent intent = new Intent();
                                     intent.putExtra("userId", bean.getCustomerId());
+                                    intent.putExtra("fromHome", "2");
                                     startActivityForIntent(HighTalentActivity.class, intent);
                                 } else {
                                     Intent intent = new Intent();

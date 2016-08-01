@@ -1,9 +1,16 @@
 package sinia.com.baihangeducation.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,6 +34,7 @@ import butterknife.OnClick;
 import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.base.BaseActivity;
 import sinia.com.baihangeducation.bean.PersonalBean;
+import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.AppInfoUtil;
 import sinia.com.baihangeducation.utils.BitmapUtilsHelp;
 import sinia.com.baihangeducation.utils.Constants;
@@ -58,6 +66,11 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getData();
     }
 
@@ -120,11 +133,89 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.tv_rencai)
     void tv_rencai() {
-        if("2".equals(talentType)){
+        if ("2".equals(talentType)) {
             showToast("已通过人才认证");
-        }else{
-            showToast("您还不是高级人才，需要提交资料并审核");
+        } else if ("1".equals(talentType)) {
+            showToast("您的人才认证正在审核中...");
+        } else if ("3".equals(talentType)) {
+            createCheckFailedDialog(this);
+        } else {
+            createTipsDialog(this);
         }
+    }
+
+    public Dialog dialog;
+
+    public Dialog createTipsDialog(final Context context) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_tips, null);
+        dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (display.getWidth() - 100); // 设置宽度
+        dialog.getWindow().setAttributes(lp);
+        dialog.setContentView(v, lp);
+        final TextView cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
+        final TextView tv_ok = (TextView) dialog.findViewById(R.id.tv_ok);
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent();
+                intent.putExtra("fromHome", "1");
+                intent.putExtra("userId", MyApplication.getInstance().getStringValue("userId"));
+                startActivityForIntent(HighTalentActivity.class, intent);
+                dialog.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                dialog.dismiss();
+            }
+        });
+        return dialog;
+    }
+
+    public Dialog createCheckFailedDialog(final Context context) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_check_failed, null);
+        dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (display.getWidth() - 100); // 设置宽度
+        dialog.getWindow().setAttributes(lp);
+        dialog.setContentView(v, lp);
+        final TextView cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
+        final TextView tv_ok = (TextView) dialog.findViewById(R.id.tv_ok);
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent();
+                intent.putExtra("fromHome", "1");
+                intent.putExtra("userId", MyApplication.getInstance().getStringValue("userId"));
+                startActivityForIntent(HighTalentActivity.class, intent);
+                dialog.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                dialog.dismiss();
+            }
+        });
+        return dialog;
     }
 
     private void setTranslucentStatus(boolean on) {

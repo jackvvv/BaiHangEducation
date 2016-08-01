@@ -40,6 +40,7 @@ import sinia.com.baihangeducation.activity.StudentJobActivity;
 import sinia.com.baihangeducation.base.BaseFragment;
 import sinia.com.baihangeducation.bean.JobBean;
 import sinia.com.baihangeducation.bean.JsonBean;
+import sinia.com.baihangeducation.bean.ResumeBean;
 import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.Constants;
 import sinia.com.baihangeducation.utils.DialogUtils;
@@ -67,7 +68,7 @@ public class FullTimeFragment extends BaseFragment {
     TextView tv_ok;
 
     private List<String> jobList = new ArrayList<>();
-    private String jobIds, workCity;
+    private String jobIds, workCity, resumeId;
     private AsyncHttpClient client = new AsyncHttpClient();
 
     @Override
@@ -76,6 +77,38 @@ public class FullTimeFragment extends BaseFragment {
         rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_fulltime, null);
         ButterKnife.bind(this, rootView);
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getResume();
+    }
+
+    private void getResume() {
+        RequestParams params = new RequestParams();
+        params.put("userId", MyApplication.getInstance().getStringValue("userId"));
+        Log.i("tag", Constants.BASE_URL + "querypersonalresume&" + params);
+        client.post(Constants.BASE_URL + "querypersonalresume", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, String s) {
+                super.onSuccess(i, s);
+                dismiss();
+                Gson gson = new Gson();
+                if (s.contains("isSuccessful")
+                        && s.contains("state")) {
+                    ResumeBean bean = gson.fromJson(s, ResumeBean.class);
+                    int state = bean.getState();
+                    int isSuccessful = bean.getIsSuccessful();
+                    if (0 == state && 0 == isSuccessful) {
+                        if (null != bean && null != bean.getItems() && 0 != bean.getItems().size() && null != bean.getItems().get(0)) {
+                            resumeId = bean.getItems().get(0).getResumeId();
+                        }
+                    } else {
+                    }
+                }
+            }
+        });
     }
 
     @OnClick(R.id.rl_workplace)
@@ -107,8 +140,8 @@ public class FullTimeFragment extends BaseFragment {
             showToast("请选择职业类别");
         } else if (StringUtil.isEmpty(workCity)) {
             showToast("请选择意向工作地点");
-        } else if (StringUtil.isEmpty(MyApplication.getInstance().getStringValue("resumeId"))) {
-            showToast("请选择完善个人简历");
+        } else if (StringUtil.isEmpty(resumeId)) {
+            showToast("请完善个人简历");
         } else {
             publicResume();
         }
@@ -121,7 +154,7 @@ public class FullTimeFragment extends BaseFragment {
         params.put("workType", "1");
         params.put("jobName", jobIds);
         params.put("intentionalCity", workCity);
-        params.put("resumeId", MyApplication.getInstance().getStringValue("resumeId"));
+        params.put("resumeId", resumeId);
         Log.i("tag", Constants.BASE_URL + "stuSendDemand&" + params);
         client.post(Constants.BASE_URL + "stuSendDemand", params, new AsyncHttpResponseHandler() {
             @Override

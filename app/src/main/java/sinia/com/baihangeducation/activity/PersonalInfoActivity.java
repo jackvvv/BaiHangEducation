@@ -94,7 +94,7 @@ public class PersonalInfoActivity extends BaseActivity {
                     int state = bean.getState();
                     int isSuccessful = bean.getIsSuccessful();
                     if (0 == state && 0 == isSuccessful) {
-                        if (null != bean && null != bean.getItems().get(0)) {
+                        if (null != bean && null != bean.getItems() && 0 != bean.getItems().size() && null != bean.getItems().get(0)) {
                             et_name.setText(bean.getItems().get(0).getName());
                             if ("1".equals(bean.getItems().get(0).getSex())) {
                                 tv_sex.setText("男");
@@ -157,6 +157,7 @@ public class PersonalInfoActivity extends BaseActivity {
                     int isSuccessful = bean.getIsSuccessful();
                     if (0 == state && 0 == isSuccessful) {
                         showToast("简历保存成功");
+                        ActivityManager.getInstance().finishCurrentActivity();
                     } else {
                         showToast("简历保存失败");
                     }
