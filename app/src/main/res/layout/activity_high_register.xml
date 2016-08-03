@@ -54,6 +54,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_margin="10dp"
                         android:drawablePadding="3dp"
+                        android:textColorHint="@color/textblackColor"
                         android:drawableRight="@mipmap/sanjiao"
                         android:hint="选择证件"
                         android:textSize="15sp" />
@@ -146,6 +147,18 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#fff"
                 android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tv_know"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="高级人才须知"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/themeColor"
+                android:textSize="15sp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

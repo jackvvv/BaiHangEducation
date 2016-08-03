@@ -47,7 +47,8 @@ public class PersonalInfoActivity extends BaseActivity {
     @Bind(R.id.et_tel)
     EditText et_tel;
     @Order(6)
-    @Pattern(regex = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$", message = "请输入正确的邮箱地址")
+    @Pattern(regex = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(" +
+            "([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$", message = "请输入正确的邮箱地址")
     @Bind(R.id.et_email)
     EditText et_email;
     @Order(2)
@@ -82,36 +83,41 @@ public class PersonalInfoActivity extends BaseActivity {
         RequestParams params = new RequestParams();
         params.put("userId", MyApplication.getInstance().getStringValue("userId"));
         Log.i("tag", Constants.BASE_URL + "querypersonalresume&" + params);
-        client.post(Constants.BASE_URL + "querypersonalresume", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, String s) {
-                super.onSuccess(i, s);
-                dismiss();
-                Gson gson = new Gson();
-                if (s.contains("isSuccessful")
-                        && s.contains("state")) {
-                    ResumeBean bean = gson.fromJson(s, ResumeBean.class);
-                    int state = bean.getState();
-                    int isSuccessful = bean.getIsSuccessful();
-                    if (0 == state && 0 == isSuccessful) {
-                        if (null != bean && null != bean.getItems() && 0 != bean.getItems().size() && null != bean.getItems().get(0)) {
-                            et_name.setText(bean.getItems().get(0).getName());
-                            if ("1".equals(bean.getItems().get(0).getSex())) {
-                                tv_sex.setText("男");
+        client.post(Constants.BASE_URL + "querypersonalresume", params, new
+                AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int i, String s) {
+                        super.onSuccess(i, s);
+                        dismiss();
+                        Gson gson = new Gson();
+                        if (s.contains("isSuccessful")
+                                && s.contains("state")) {
+                            ResumeBean bean = gson.fromJson(s, ResumeBean.class);
+                            int state = bean.getState();
+                            int isSuccessful = bean.getIsSuccessful();
+                            if (0 == state && 0 == isSuccessful) {
+                                if (null != bean && null != bean.getItems() && 0 != bean.getItems
+                                        ().size
+                                        () && null != bean.getItems().get(0)) {
+                                    et_name.setText(bean.getItems().get(0).getName());
+                                    if ("1".equals(bean.getItems().get(0).getSex())) {
+                                        tv_sex.setText("男");
+                                    } else {
+                                        tv_sex.setText("女");
+                                    }
+                                    tv_birthday.setText(bean.getItems().get(0).getBirth());
+                                    et_city.setText(bean.getItems().get(0).getCity());
+                                    et_tel.setText(bean.getItems().get(0).getTelephone());
+                                    et_email.setText(bean.getItems().get(0).getEmail());
+                                    MyApplication.getInstance().setStringValue("resumeId", bean
+                                            .getItems
+                                            ().get(0).getResumeId());
+                                }
                             } else {
-                                tv_sex.setText("女");
                             }
-                            tv_birthday.setText(bean.getItems().get(0).getBirth());
-                            et_city.setText(bean.getItems().get(0).getCity());
-                            et_tel.setText(bean.getItems().get(0).getTelephone());
-                            et_email.setText(bean.getItems().get(0).getEmail());
-                            MyApplication.getInstance().setStringValue("resumeId", bean.getItems().get(0).getResumeId());
                         }
-                    } else {
                     }
-                }
-            }
-        });
+                });
     }
 
     private void initData() {

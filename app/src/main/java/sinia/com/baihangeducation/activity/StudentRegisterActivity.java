@@ -35,7 +35,8 @@ import sinia.com.baihangeducation.utils.ValidationUtils;
  * Created by 忧郁的眼神 on 2016/7/15.
  */
 public class StudentRegisterActivity extends BaseActivity {
-    @Pattern(regex = "^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$", message = "请输入正确的手机号码")
+    @Pattern(regex = "^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$", message =
+            "请输入正确的手机号码")
     @Order(1)
     @Bind(R.id.et_tel)
     EditText et_tel;

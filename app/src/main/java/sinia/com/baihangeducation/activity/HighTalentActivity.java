@@ -61,6 +61,8 @@ public class HighTalentActivity extends BaseActivity {
     @NotEmpty(message = "请选择证件类型")
     @Bind(R.id.tv_choosecard)
     TextView tv_choosecard;
+    @Bind(R.id.tv_know)
+    TextView tv_know;
     private Validator validator;
     private String userId;
     private AsyncHttpClient client = new AsyncHttpClient();
@@ -116,9 +118,9 @@ public class HighTalentActivity extends BaseActivity {
                                 "is_login", true);
                         MyApplication.getInstance().setStringValue(
                                 "userId", userId);
-                        if (isFromHome.equals("1")){
+                        if (isFromHome.equals("1")) {
 
-                        }else{
+                        } else {
                             startActivityForNoIntent(MainActivity.class);
                         }
                         ActivityManager.getInstance()
@@ -152,6 +154,11 @@ public class HighTalentActivity extends BaseActivity {
     @OnClick(R.id.tv_register)
     void tv_register() {
         validator.validate();
+    }
+
+    @OnClick(R.id.tv_know)
+    void tv_know() {
+        startActivityForNoIntent(HighTalentKnowActivity.class);
     }
 
 }
