@@ -54,8 +54,7 @@ public class ForgetPasswordActivity extends BaseActivity {
     EditText et_confirm;
     @Bind(R.id.tv_register)
     TextView tv_register;
-    @Bind(R.id.tv_getcode)
-    TextView tv_getcode;
+    private TextView tv_getcode;
     private Validator validator;
     private AsyncHttpClient client = new AsyncHttpClient();
     private int i = 60;
@@ -69,6 +68,7 @@ public class ForgetPasswordActivity extends BaseActivity {
     }
 
     protected void initViewsAndEvents() {
+        tv_getcode = (TextView) findViewById(R.id.tv_getcode);
         validator = new Validator(this);
         validator.setValidationListener(new ValidationUtils.ValidationListener() {
             @Override

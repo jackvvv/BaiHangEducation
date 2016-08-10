@@ -100,7 +100,7 @@ public class PersonalInfoActivity extends BaseActivity {
                                         ().size
                                         () && null != bean.getItems().get(0)) {
                                     et_name.setText(bean.getItems().get(0).getName());
-                                    if ("1".equals(bean.getItems().get(0).getSex())) {
+                                    if (1 == bean.getItems().get(0).getSex()) {
                                         tv_sex.setText("男");
                                     } else {
                                         tv_sex.setText("女");
@@ -144,6 +144,7 @@ public class PersonalInfoActivity extends BaseActivity {
         params.put("regionCodeAll", et_city.getEditableText().toString().trim());
         params.put("birth", tv_birthday.getText().toString().trim());
         params.put("workType", workType);
+        Log.d("lamp","tv_sex="+tv_sex.getText().toString());
         if ("男".equals(tv_sex.getText().toString())) {
             params.put("sex", "1");
         } else {

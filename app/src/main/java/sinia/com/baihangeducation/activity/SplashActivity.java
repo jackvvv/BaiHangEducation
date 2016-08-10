@@ -1,6 +1,7 @@
 package sinia.com.baihangeducation.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
@@ -15,6 +16,7 @@ import sinia.com.baihangeducation.R;
 import sinia.com.baihangeducation.base.BaseActivity;
 import sinia.com.baihangeducation.utils.ActivityManager;
 import sinia.com.baihangeducation.utils.MyApplication;
+import sinia.com.baihangeducation.utils.SPUtils;
 
 /**
  * Created by 忧郁的眼神 on 2016/7/28.
@@ -22,6 +24,8 @@ import sinia.com.baihangeducation.utils.MyApplication;
 public class SplashActivity extends BaseActivity {
 
     RelativeLayout root;
+    private boolean isFirst;
+    private SharedPreferences mDataShared;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +39,29 @@ public class SplashActivity extends BaseActivity {
         TimerTask tt = new TimerTask() {
             @Override
             public void run() {
-                if (MyApplication.getInstance().getBoolValue("is_login")) {
-                    Intent intent = new Intent(SplashActivity.this,
-                            MainActivity.class);
-                    startActivity(intent);
-                    ActivityManager.getInstance().finishCurrentActivity();
-                } else {
-                    startActivityForNoIntent(LoginActivity.class);
-//                    startActivityForNoIntent(MainActivity.class);
-                    ActivityManager.getInstance().finishCurrentActivity();
-                }
+                jumpToMainActivity();
             }
         };
         timer.schedule(tt, 2000);
+    }
 
+    protected void jumpToMainActivity() {
+        isFirst = SPUtils.getShareBoolean(this, "isFirstIn");
+        if (!isFirst) {
+            Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
+            startActivity(intent);
+            SPUtils.putShareValue(this, "isFirstIn", true);
+            ActivityManager.getInstance().finishCurrentActivity();
+        } else {
+            if (MyApplication.getInstance().getBoolValue("is_login")) {
+                Intent intent = new Intent(SplashActivity.this,
+                        MainActivity.class);
+                startActivity(intent);
+                ActivityManager.getInstance().finishCurrentActivity();
+            } else {
+                startActivityForNoIntent(LoginActivity.class);
+                ActivityManager.getInstance().finishCurrentActivity();
+            }
+        }
     }
 }
